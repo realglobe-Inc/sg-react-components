@@ -1,0 +1,20 @@
+/**
+ * Bud file for jsx
+ */
+'use strict'
+
+const components = require('./.components.json')
+const stringcase = require('stringcase')
+
+module.exports = components.map((name) => ({
+  force: false,
+  mode: '644',
+  path: `${stringcase.snakecase(name)}.jsx`,
+  data: {
+    name
+  }
+}))
+
+if (!module.parent) {
+  require('coz').render(__filename)
+}
