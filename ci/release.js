@@ -17,7 +17,7 @@ apeTasking.runTasks('release', [
       './ci/compile.js',
       './ci/build.js',
       './ci/test.js',
-      './ci/deploy.js'
+      // './ci/deploy.js'
     ]
   })
 ], true)
