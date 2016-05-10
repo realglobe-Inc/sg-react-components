@@ -32,3 +32,5 @@ tmp
 
 lib/*.js
 !lib/index.js
+
+.npmrc
