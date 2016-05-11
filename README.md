@@ -119,6 +119,13 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 
+### SgButton
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+
 ### SgHeader
 
 **Props**

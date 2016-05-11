@@ -17,5 +17,6 @@ apeTasking.runTasks('build', [
     'doc/**/.*.bud',
     'lib/.*.bud',
     'test/.*.bud'
-  ])
+  ]),
+  () => apeTasking.execcli('node', [ './ci/compile.js' ]),
 ], true)

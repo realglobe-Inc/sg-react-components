@@ -1,15 +1,16 @@
 /**
  * Style for SgHtml.
- * @constructor SgHtmlStyle
+ * @constructor SgThemeStyle
  */
 
 'use strict'
 
 import React, {PropTypes as types} from 'react'
 import {ApStyle} from 'apeman-react-style'
+import {ApThemeStyle} from 'apeman-react-theme'
 
-/** @lends SgHtmlStyle */
-const SgHtmlStyle = React.createClass({
+/** @lends SgThemeStyle */
+const SgThemeStyle = React.createClass({
   propTypes: {
     style: types.object,
     highlightColor: types.string
@@ -27,20 +28,15 @@ const SgHtmlStyle = React.createClass({
 
     let { highlightColor, backgroundColor } = props
 
-    let data = {
+    let style = {
       '.sg-html': {}
     }
-    let smallMediaData = {}
-    let mediumMediaData = {}
-    let largeMediaData = {}
     return (
-      <ApStyle data={ Object.assign(data, props.style) }
-               smallMediaData={ smallMediaData }
-               mediumMediaData={ mediumMediaData }
-               largeMediaData={ largeMediaData }
-      >{ props.children }</ApStyle>
+      <ApThemeStyle { ...props }
+        style={ Object.assign(style, props.style) }
+      >{ props.children }</ApThemeStyle>
     )
   }
 })
 
-export default SgHtmlStyle
+export default SgThemeStyle

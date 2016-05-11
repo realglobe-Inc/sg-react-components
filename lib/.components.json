@@ -1,6 +1,7 @@
 [
   "SgHtml",
   "SgBody",
+  "SgButton",
   "SgPage",
   "SgMain",
   "SgHeader"
