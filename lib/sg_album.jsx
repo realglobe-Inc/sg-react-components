@@ -18,9 +18,13 @@ const SgAlbum = React.createClass({
      */
     width: types.number,
     /**
-     * List of image urls.
+     * List of image src.
      */
-    imageList: types.array
+    imageList: types.array,
+    /**
+     * Called when update. Argument is index of imageList.
+     */
+    onChange: types.func
   },
 
   getDefaultProps () {
@@ -53,17 +57,25 @@ const SgAlbum = React.createClass({
         <div className='sg-album-display' style={style.display}>
           <div className='sg-album-full-img' style={style.fullImg}>
               {
-                imageList.map((src, i) =>
-                  <img className='sg-album-img' src={src} key={i} style={style.img}/>
+                imageList.map((image, i) =>
+                  <img className='sg-album-img' src={image} key={i} style={style.img}/>
                 )
               }
           </div>
         </div>
-        <div style={style.download}>
-          <a href={imageList[state.nth - 1]} download>download</a>
-        </div>
       </div>
     )
+  },
+
+  componentWillReceiveProps (nextProps) {
+    this.setState(this.getInitialState())
+  },
+
+  componentWillUpdate (nextProps, nextState) {
+    let onChange = this.props.onChange
+    if (onChange) {
+      onChange(nextState.nth - 1)
+    }
   },
 
   getStyle () {
@@ -80,8 +92,9 @@ const SgAlbum = React.createClass({
         overflow: 'hidden'
       },
       fullImg: {
-        width: width * imageList.length,
+        width: `${width * imageList.length}px`,
         position: 'relative',
+        whiteSpace: 'nowrap',
         right: `${state.right}px`,
         transition: 'all 0.3s ease'
       },
@@ -96,19 +109,15 @@ const SgAlbum = React.createClass({
         position: 'absolute',
         right: 0,
         top: '10px'
-      },
-      download: {
-        textAlign: 'center'
       }
     }
   },
 
   toRight () {
     let {props, state} = this
-    let rightLimit = props.width * (props.imageList.length - 1)
-    if (state.right < rightLimit) {
+    if (state.nth < props.imageList.length) {
       this.setState({
-        right: state.right + props.width,
+        right: state.nth * props.width,
         nth: state.nth + 1
       })
     }
@@ -116,9 +125,9 @@ const SgAlbum = React.createClass({
 
   toLeft () {
     let {props, state} = this
-    if (state.right > 0) {
+    if (state.nth > 0) {
       this.setState({
-        right: state.right - props.width,
+        right: (state.nth - 2) * props.width,
         nth: state.nth - 1
       })
     }
