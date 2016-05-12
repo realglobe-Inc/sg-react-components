@@ -131,6 +131,13 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 
+### SgHead
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+
 ### SgHeader
 
 **Props**
@@ -139,6 +146,13 @@ Components
 | ---- | ---- | ------- | ----------- |
 
 ### SgHtml
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+
+### SgKinnectJoint
 
 **Props**
 

@@ -6,5 +6,6 @@
   "SgPage",
   "SgMain",
   "SgHeader",
+  "SgKinectFrame",
   "SgThemeStyle"
 ]
