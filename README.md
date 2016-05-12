@@ -161,12 +161,17 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 
-### SgKinnectJoint
+### SgKinectFrame
 
 **Props**
 
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
+| frame | array |  | | Body frame data from kinect |
+| width | number | depthSpace.BOUND_WIDTH | | Component width |
+| height | number | depthSpace.BOUND_HEIGHT | | Component height |
+| highlightColor | string | &#x27;#CCCC33&#x27; | | Highlight color |
+| lineWidth | number | 4 | |  |
 
 ### SgMain
 
