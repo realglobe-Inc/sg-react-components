@@ -120,7 +120,7 @@ Components
 | ---- | ---- | ------- | ----------- |
 | width | number | 300 | | Width(px) of a image. |
 | imageList | array |  | | List of image src. |
-| onRender | func |  | | Called with rendering. Argument is index of imageList. |
+| onChange | func |  | | Called when update. Argument is index of imageList. |
 
 ### SgBody
 

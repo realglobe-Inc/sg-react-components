@@ -22,9 +22,9 @@ const SgAlbum = React.createClass({
      */
     imageList: types.array,
     /**
-     * Called with rendering. Argument is index of imageList.
+     * Called when update. Argument is index of imageList.
      */
-    onRender: types.func
+    onChange: types.func
   },
 
   getDefaultProps () {
@@ -45,9 +45,6 @@ const SgAlbum = React.createClass({
     let { props, state } = s
     let { imageList } = props
     let style = s.getStyle()
-    if (props.onRender) {
-      props.onRender(state.nth - 1)
-    }
 
     return (
       <div className={ classnames('sg-album', props.className) }
@@ -72,6 +69,13 @@ const SgAlbum = React.createClass({
 
   componentWillReceiveProps (nextProps) {
     this.setState(this.getInitialState())
+  },
+
+  componentWillUpdate (nextProps, nextState) {
+    let onChange = this.props.onChange
+    if (onChange) {
+      onChange(nextState.nth - 1)
+    }
   },
 
   getStyle () {
