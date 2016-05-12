@@ -1,8 +1,10 @@
 [
   "SgHtml",
   "SgBody",
+  "SgHead",
   "SgButton",
   "SgPage",
   "SgMain",
-  "SgHeader"
+  "SgHeader",
+  "SgThemeStyle"
 ]
