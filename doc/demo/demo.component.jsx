@@ -2,8 +2,7 @@
 
 import React from 'react'
 import {
-  SgHtml,
-  SgButton,
+  SgAlbum,
   SgThemeStyle
 } from '../../lib'
 
@@ -20,13 +19,13 @@ const demoStyle = {
 
 const Demo = React.createClass({
   render () {
+    let imgs = ['./img/sample1.png', './img/sample2.png', './img/sample3.png', './img/sample4.png', './img/sample5.png']
     return (
       <div>
         <SgThemeStyle dominant={ DOMINANT_COLOR } style={ demoStyle }/>
         <fieldset>
-          <legend>SgButton</legend>
-          <SgButton primary={ true } onTap={ () => console.log('button 01 tapped!') }>Button 01</SgButton>
-          <SgButton onTap={ () => console.log('button 02 tapped!') }>Button 02</SgButton>
+          <legend>SgAlbum</legend>
+          <SgAlbum imageList={imgs} />
         </fieldset>
       </div>
     )
