@@ -19,7 +19,7 @@ const demoStyle = {
 
 const Demo = React.createClass({
   render () {
-    let imgs = ['./img/sample1.png', './img/sample2.png', './img/sample3.png', './img/sample4.png', './img/sample5.png']
+    let imgs = ['sample1.png', 'sample2.png', 'sample3.png', 'sample4.png', 'sample5.png'].map(name => { return {path: `./img/${name}`, name: name} })
     return (
       <div>
         <SgThemeStyle dominant={ DOMINANT_COLOR } style={ demoStyle }/>
