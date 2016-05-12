@@ -66,6 +66,10 @@ const SgAlbum = React.createClass({
     )
   },
 
+  componentWillReceiveProps (nextProps) {
+    this.setState(this.getInitialState())
+  },
+
   getStyle () {
     const s = this
     let { props, state } = s
@@ -80,8 +84,9 @@ const SgAlbum = React.createClass({
         overflow: 'hidden'
       },
       fullImg: {
-        width: width * imageList.length,
+        width: `${width * imageList.length}px`,
         position: 'relative',
+        whiteSpace: 'nowrap',
         right: `${state.right}px`,
         transition: 'all 0.3s ease'
       },
@@ -105,10 +110,9 @@ const SgAlbum = React.createClass({
 
   toRight () {
     let {props, state} = this
-    let rightLimit = props.width * (props.imageList.length - 1)
-    if (state.right < rightLimit) {
+    if (state.nth < props.imageList.length) {
       this.setState({
-        right: state.right + props.width,
+        right: state.nth * props.width,
         nth: state.nth + 1
       })
     }
@@ -116,9 +120,9 @@ const SgAlbum = React.createClass({
 
   toLeft () {
     let {props, state} = this
-    if (state.right > 0) {
+    if (state.nth > 0) {
       this.setState({
-        right: state.right - props.width,
+        right: (state.nth - 2) * props.width,
         nth: state.nth - 1
       })
     }
