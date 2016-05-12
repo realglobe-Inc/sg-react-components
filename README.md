@@ -119,7 +119,8 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | width | number | 300 | | Width(px) of a image. |
-| imageList | array |  | | List of image object {path, name}. |
+| imageList | array |  | | List of image src. |
+| onRender | func |  | | Called with rendering. Argument is index of imageList. |
 
 ### SgBody
 
