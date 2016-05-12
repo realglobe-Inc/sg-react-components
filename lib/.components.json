@@ -4,5 +4,6 @@
   "SgButton",
   "SgPage",
   "SgMain",
-  "SgHeader"
+  "SgHeader",
+  "SgAlbum"
 ]

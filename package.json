@@ -1,6 +1,6 @@
 {
   "name": "sg-react-components",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "React components for SUGOS project.",
   "main": "lib",
   "scripts": {
