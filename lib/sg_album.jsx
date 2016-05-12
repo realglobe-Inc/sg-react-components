@@ -13,7 +13,13 @@ import {ApNextButton, ApPrevButton} from 'apeman-react-button'
 const SgAlbum = React.createClass({
 
   propTypes: {
+    /**
+     * Width(px) of a image.
+     */
     width: types.number,
+    /**
+     * List of image urls.
+     */
     imageList: types.array
   },
 
