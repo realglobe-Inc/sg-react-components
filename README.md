@@ -117,6 +117,15 @@ Components
 -----
 
 
+### SgAlbum
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| width | number | 300 | | Width(px) of a image. |
+| imageList | array |  | | List of image urls. |
+
 ### SgBody
 
 **Props**

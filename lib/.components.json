@@ -7,5 +7,6 @@
   "SgMain",
   "SgHeader",
   "SgKinectFrame",
-  "SgThemeStyle"
+  "SgThemeStyle",
+  "SgAlbum"
 ]
