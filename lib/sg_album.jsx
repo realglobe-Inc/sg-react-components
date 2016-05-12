@@ -18,9 +18,13 @@ const SgAlbum = React.createClass({
      */
     width: types.number,
     /**
-     * List of image object {path, name}.
+     * List of image src.
      */
-    imageList: types.array
+    imageList: types.array,
+    /**
+     * Called with rendering. Argument is index of imageList.
+     */
+    onRender: types.func
   },
 
   getDefaultProps () {
@@ -41,7 +45,9 @@ const SgAlbum = React.createClass({
     let { props, state } = s
     let { imageList } = props
     let style = s.getStyle()
-    let currentImg = imageList[state.nth - 1]
+    if (props.onRender) {
+      props.onRender(state.nth - 1)
+    }
 
     return (
       <div className={ classnames('sg-album', props.className) }
@@ -55,13 +61,10 @@ const SgAlbum = React.createClass({
           <div className='sg-album-full-img' style={style.fullImg}>
               {
                 imageList.map((image, i) =>
-                  <img className='sg-album-img' src={image.path} key={i} style={style.img}/>
+                  <img className='sg-album-img' src={image} key={i} style={style.img}/>
                 )
               }
           </div>
-        </div>
-        <div style={style.download}>
-          <a href={currentImg.path} download={currentImg.name}>download</a>
         </div>
       </div>
     )
@@ -102,9 +105,6 @@ const SgAlbum = React.createClass({
         position: 'absolute',
         right: 0,
         top: '10px'
-      },
-      download: {
-        textAlign: 'center'
       }
     }
   },
