@@ -29,6 +29,7 @@ const SgAlbum = React.createClass({
 
   getDefaultProps () {
     return {
+      imageList: [],
       width: 300
     }
   },
@@ -68,10 +69,14 @@ const SgAlbum = React.createClass({
   },
 
   componentWillReceiveProps (nextProps) {
-    this.setState(this.getInitialState())
+    // 新しい画像がシフトされたら閲覧位置を戻す
+    if (this.props.imageList.length < nextProps.imageList.length) {
+      this.setState(this.getInitialState())
+    }
   },
 
   componentWillUpdate (nextProps, nextState) {
+    // 親コンポーネントからこのコンポーネントの状態を取得するのに使える
     let onChange = this.props.onChange
     if (onChange) {
       onChange(nextState.nth - 1)
@@ -125,7 +130,7 @@ const SgAlbum = React.createClass({
 
   toLeft () {
     let {props, state} = this
-    if (state.nth > 0) {
+    if (state.nth > 1) {
       this.setState({
         right: (state.nth - 2) * props.width,
         nth: state.nth - 1
