@@ -33,7 +33,7 @@ const Demo = React.createClass({
         </fieldset>
         <fieldset>
           <legend>SgAlbum</legend>
-          <SgAlbum imageList={imgs} />
+          <SgAlbum imageList={ imgs } width={ 400 } thumbnailCol={ 4 } thumbnailSelectedColor={ DOMINANT_COLOR }/>
         </fieldset>
         <fieldset>
           <legend>SgKinectFrame</legend>

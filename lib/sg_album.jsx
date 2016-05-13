@@ -7,6 +7,7 @@
 
 import React, {PropTypes as types} from 'react'
 import classnames from 'classnames'
+import {ApStyle} from 'apeman-react-style' // インラインでは :hover が使えなかったので
 import {ApNextButton, ApPrevButton} from 'apeman-react-button'
 
 /** @lends SgAlbum */
@@ -40,7 +41,7 @@ const SgAlbum = React.createClass({
       imageList: [],
       width: 300,
       thumbnailCol: 4,
-      thumbnailSelectedColor: 'red'
+      thumbnailSelectedColor: 'yellow'
     }
   },
 
@@ -58,28 +59,36 @@ const SgAlbum = React.createClass({
 
     return (
       <div className={ classnames('sg-album', props.className) }
-           style={ Object.assign(style.container, props.style) }>
-        <div style={style.header}>
-          <ApPrevButton onTap={s.toLeft} />
-          <ApNextButton onTap={s.toRight} />
-          <span style={style.nth}> {state.nth} / {imageList.length} </span>
-        </div>
-        <div className='sg-album-display' style={style.display}>
-          <div className='sg-album-full-img' style={style.fullImg}>
-              {
-                imageList.map((image, i) =>
-                  <img className='sg-album-img' src={image} key={i} style={style.img}/>
-                )
-              }
+           style={ Object.assign({}, props.style) }>
+        <ApStyle data={ style } />
+        <div className='sg-album-container'>
+          <div className='sg-album-header'>
+            <ApPrevButton onTap={ s.toLeft } />
+            <ApNextButton onTap={ s.toRight } />
+            <span className='sg-album-nth'> { state.nth } / { imageList.length } </span>
           </div>
-        </div>
-        <div className='sg-album-thumbnail' style={style.thumbnail}>
-          <div className='sg-album-thumbnail-selected' style={style.thumbnailSelected}/>
-          {
-            imageList.map((image, i) =>
-              <img className='sg-album-img' src={image} key={i} style={style.thumbnailImg}/>
-            )
-          }
+          <div className='sg-album-display'>
+            <div className='sg-album-full-img'>
+                {
+                  imageList.map((image, i) =>
+                    <img className='sg-album-img' src={ image } key={ i } />
+                  )
+                }
+            </div>
+          </div>
+          <div className='sg-album-thumbnail'>
+            <div className='sg-album-thumbnail-selected'/>
+            {
+              imageList.map((image, i) => {
+                let key = image.slice(-50)
+                return (
+                  <div className='sg-album-thumbnail-img-back' key={ key }>
+                    <img className='sg-album-thumbnail-img' src={ image } key={ key } data={ i } onClick={ this.moveTo }/>
+                  </div>
+                )
+              })
+            }
+          </div>
         </div>
       </div>
     )
@@ -111,45 +120,55 @@ const SgAlbum = React.createClass({
     let thumbnailTop = thumbnailHeight * Math.floor((state.nth - 1) / thumbnailCol)
     return {
       // main
-      container: {
+      '.sg-album-container': {
         width: `${width}px`,
         margin: '5px'
       },
-      display: {
+      '.sg-album-display': {
         width: `${width}px`,
         overflow: 'hidden',
         borderBottom: '2px solid #666'
       },
-      fullImg: {
+      '.sg-album-full-img': {
         width: `${width * imageList.length}px`,
         position: 'relative',
         whiteSpace: 'nowrap',
         right: `${displayRight}px`,
         transition: 'all 0.3s ease'
       },
-      img: {
+      '.sg-album-img': {
         width: width
       },
       // header
-      header: {
+      '.sg-album-header': {
         position: 'relative',
         textAlign: 'center'
       },
-      nth: {
+      '.sg-album-nth': {
         position: 'absolute',
         right: 0,
         top: '10px'
       },
       // thumbnail
-      thumbnail: {
+      '.sg-album-thumbnail': {
         width: `${width}px`,
         position: 'relative'
       },
-      thumbnailImg: {
+      '.sg-album-thumbnail-img-back': {
+        zIndex: 1,
+        display: 'inline-block',
+        width: `${thumbnailWidth}px`,
+        backgroundColor: thumbnailSelectedColor
+      },
+      '.sg-album-thumbnail-img': {
         width: `${thumbnailWidth}px`
       },
-      thumbnailSelected: {
+      '.sg-album-thumbnail-img:hover': {
+        opacity: 0.9
+      },
+      '.sg-album-thumbnail-selected': {
         position: 'absolute',
+        zIndex: 2,
         width: `${thumbnailWidth}px`,
         height: `${thumbnailHeight}px`,
         transition: 'all 0.3s ease',
@@ -162,17 +181,21 @@ const SgAlbum = React.createClass({
   },
 
   toRight () {
-    let {props, state} = this
+    let { props, state } = this
     let nth = state.nth % props.imageList.length + 1
-    this.setState({nth})
+    this.setState({ nth })
   },
 
   toLeft () {
-    let {state, props} = this
+    let { state, props } = this
     let nth = (state.nth + props.imageList.length - 2) % props.imageList.length + 1
-    this.setState({nth})
-  }
+    this.setState({ nth })
+  },
 
+  moveTo (e) {
+    let nth = Number(e.target.attributes.data.value) + 1
+    this.setState({ nth })
+  }
 })
 
 export default SgAlbum
