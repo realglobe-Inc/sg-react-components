@@ -17,7 +17,7 @@ apeWatching.watchFiles([
   'lib/**/*.jsx'
 ], (ev, filename) => {
   clearTimeout(timer)
-  timer = setTimeout(function () {
+  timer = setTimeout(() => {
     childProcess.fork('ci/compile.js')
   }, 300)
 })
