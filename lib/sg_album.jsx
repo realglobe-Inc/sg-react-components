@@ -22,6 +22,14 @@ const SgAlbum = React.createClass({
      */
     imageList: types.array,
     /**
+     * Number of images per 1 row in the thumbnail.
+     */
+    thumbnailCol: types.number,
+    /**
+     * Border color of selected image in the thumbnail.
+     */
+    thumbnailSelectedColor: types.string,
+    /**
      * Called when update. Argument is index of imageList.
      */
     onChange: types.func
@@ -29,13 +37,15 @@ const SgAlbum = React.createClass({
 
   getDefaultProps () {
     return {
-      width: 300
+      imageList: [],
+      width: 300,
+      thumbnailCol: 4,
+      thumbnailSelectedColor: 'red'
     }
   },
 
   getInitialState () {
     return {
-      right: 0,
       nth: 1
     }
   },
@@ -63,15 +73,27 @@ const SgAlbum = React.createClass({
               }
           </div>
         </div>
+        <div className='sg-album-thumbnail' style={style.thumbnail}>
+          <div className='sg-album-thumbnail-selected' style={style.thumbnailSelected}/>
+          {
+            imageList.map((image, i) =>
+              <img className='sg-album-img' src={image} key={i} style={style.thumbnailImg}/>
+            )
+          }
+        </div>
       </div>
     )
   },
 
   componentWillReceiveProps (nextProps) {
-    this.setState(this.getInitialState())
+    // 新しい画像がシフトされたら閲覧位置を戻す
+    if (this.props.imageList.length < nextProps.imageList.length) {
+      this.setState(this.getInitialState())
+    }
   },
 
   componentWillUpdate (nextProps, nextState) {
+    // 親コンポーネントからこのコンポーネントの状態を取得するのに使える
     let onChange = this.props.onChange
     if (onChange) {
       onChange(nextState.nth - 1)
@@ -81,26 +103,34 @@ const SgAlbum = React.createClass({
   getStyle () {
     const s = this
     let { props, state } = s
-    let { imageList, width } = props
+    let { imageList, width, thumbnailCol, thumbnailSelectedColor } = props
+    let displayRight = (state.nth - 1) * width
+    let thumbnailWidth = width / thumbnailCol
+    let thumbnailHeight = thumbnailWidth * 3 / 4
+    let thumbnailLeft = thumbnailWidth * ((state.nth - 1) % thumbnailCol)
+    let thumbnailTop = thumbnailHeight * Math.floor((state.nth - 1) / thumbnailCol)
     return {
+      // main
       container: {
         width: `${width}px`,
         margin: '5px'
       },
       display: {
         width: `${width}px`,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        borderBottom: '2px solid #666'
       },
       fullImg: {
         width: `${width * imageList.length}px`,
         position: 'relative',
         whiteSpace: 'nowrap',
-        right: `${state.right}px`,
+        right: `${displayRight}px`,
         transition: 'all 0.3s ease'
       },
       img: {
         width: width
       },
+      // header
       header: {
         position: 'relative',
         textAlign: 'center'
@@ -109,28 +139,38 @@ const SgAlbum = React.createClass({
         position: 'absolute',
         right: 0,
         top: '10px'
+      },
+      // thumbnail
+      thumbnail: {
+        width: `${width}px`,
+        position: 'relative'
+      },
+      thumbnailImg: {
+        width: `${thumbnailWidth}px`
+      },
+      thumbnailSelected: {
+        position: 'absolute',
+        width: `${thumbnailWidth}px`,
+        height: `${thumbnailHeight}px`,
+        transition: 'all 0.3s ease',
+        boxSizing: 'border-box',
+        border: `2px solid ${thumbnailSelectedColor}`,
+        left: `${thumbnailLeft}px`,
+        top: `${thumbnailTop}px`
       }
     }
   },
 
   toRight () {
     let {props, state} = this
-    if (state.nth < props.imageList.length) {
-      this.setState({
-        right: state.nth * props.width,
-        nth: state.nth + 1
-      })
-    }
+    let nth = state.nth % props.imageList.length + 1
+    this.setState({nth})
   },
 
   toLeft () {
-    let {props, state} = this
-    if (state.nth > 0) {
-      this.setState({
-        right: (state.nth - 2) * props.width,
-        nth: state.nth - 1
-      })
-    }
+    let {state, props} = this
+    let nth = (state.nth + props.imageList.length - 2) % props.imageList.length + 1
+    this.setState({nth})
   }
 
 })

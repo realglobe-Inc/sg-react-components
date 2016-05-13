@@ -124,7 +124,9 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | width | number | 300 | | Width(px) of a image. |
-| imageList | array |  | | List of image src. |
+| imageList | array | [] | | List of image src. |
+| thumbnailCol | number | 4 | | Number of images per 1 row in the thumbnail. |
+| thumbnailSelectedColor | string | &#x27;red&#x27; | | Border color of selected image in the thumbnail. |
 | onChange | func |  | | Called when update. Argument is index of imageList. |
 
 ### SgBody
