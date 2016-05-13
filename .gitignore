@@ -34,3 +34,4 @@ lib/*.js
 !lib/index.js
 
 .npmrc
+.DS_Store
