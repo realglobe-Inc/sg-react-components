@@ -22,6 +22,14 @@ const SgAlbum = React.createClass({
      */
     imageList: types.array,
     /**
+     * Number of images per 1 row in the thumbnail.
+     */
+    thumbnailCol: types.number,
+    /**
+     * Border color of selected image in the thumbnail.
+     */
+    thumbnailSelectedColor: types.string,
+    /**
      * Called when update. Argument is index of imageList.
      */
     onChange: types.func
@@ -30,7 +38,9 @@ const SgAlbum = React.createClass({
   getDefaultProps () {
     return {
       imageList: [],
-      width: 300
+      width: 300,
+      thumbnailCol: 4,
+      thumbnailSelectedColor: 'red'
     }
   },
 
@@ -64,6 +74,14 @@ const SgAlbum = React.createClass({
               }
           </div>
         </div>
+        <div className='sg-album-thumbnail' style={style.thumbnail}>
+          <div className='sg-album-thumbnail-selected' style={style.thumbnailSelected}/>
+          {
+            imageList.map((image, i) =>
+              <img className='sg-album-img' src={image} key={i} style={style.thumbnailImg}/>
+            )
+          }
+        </div>
       </div>
     )
   },
@@ -86,26 +104,34 @@ const SgAlbum = React.createClass({
   getStyle () {
     const s = this
     let { props, state } = s
-    let { imageList, width } = props
+    let { imageList, width, thumbnailCol, thumbnailSelectedColor } = props
+    let displayRight = (state.nth - 1) * width
+    let thumbnailWidth = width / thumbnailCol
+    let thumbnailHeight = thumbnailWidth * 3 / 4
+    let thumbnailLeft = thumbnailWidth * ((state.nth - 1) % thumbnailCol)
+    let thumbnailTop = thumbnailHeight * Math.floor((state.nth - 1) / thumbnailCol)
     return {
+      // main
       container: {
         width: `${width}px`,
         margin: '5px'
       },
       display: {
         width: `${width}px`,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        borderBottom: '2px solid #666'
       },
       fullImg: {
         width: `${width * imageList.length}px`,
         position: 'relative',
         whiteSpace: 'nowrap',
-        right: `${state.right}px`,
+        right: `${displayRight}px`,
         transition: 'all 0.3s ease'
       },
       img: {
         width: width
       },
+      // header
       header: {
         position: 'relative',
         textAlign: 'center'
@@ -114,6 +140,24 @@ const SgAlbum = React.createClass({
         position: 'absolute',
         right: 0,
         top: '10px'
+      },
+      // thumbnail
+      thumbnail: {
+        width: `${width}px`,
+        position: 'relative'
+      },
+      thumbnailImg: {
+        width: `${thumbnailWidth}px`
+      },
+      thumbnailSelected: {
+        position: 'absolute',
+        width: `${thumbnailWidth}px`,
+        height: `${thumbnailHeight}px`,
+        transition: 'all 0.3s ease',
+        boxSizing: 'border-box',
+        border: `2px solid ${thumbnailSelectedColor}`,
+        left: `${thumbnailLeft}px`,
+        top: `${thumbnailTop}px`
       }
     }
   },
