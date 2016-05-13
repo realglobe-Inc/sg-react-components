@@ -27,8 +27,9 @@
     "apeman-react-basic": "^5.2.0",
     "apeman-react-style": "^3.0.3",
     "apeman-react-theme": "^4.0.6",
+    "apemancolor": "^1.0.2",
     "classnames": "^2.2.5",
-    "onecolor": "^3.0.1"
+    "sg-kinect-constants": "^1.0.3"
   },
   "devDependencies": {
     "ape-compiling": "^4.1.0",

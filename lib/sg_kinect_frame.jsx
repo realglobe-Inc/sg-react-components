@@ -7,10 +7,9 @@
 
 import React, {PropTypes as types} from 'react'
 import classnames from 'classnames'
-import * as depthSpace from './constants/kinnect_depth_space'
-import * as jointTypes from './constants/kinnect_joint_types'
+import apemancolor from 'apemancolor'
+import {depthSpace, jointTypes} from 'sg-kinect-constants'
 import * as drawHelper from './helpers/draw_helper'
-import onecolor from 'onecolor'
 
 /** @lends SgKinectFrame */
 const SgKinectFrame = React.createClass({
@@ -28,7 +27,7 @@ const SgKinectFrame = React.createClass({
     height: types.number,
     /** Highlight color */
     highlightColor: types.string,
-
+    /** Width of lines */
     lineWidth: types.number
   },
 
@@ -116,16 +115,11 @@ const SgKinectFrame = React.createClass({
         return
       }
 
-      // let color = ApStyle.colorHue(highlightColor, bodyIndex / bodies.length)
-      let color = highlightColor
-
-      console.log('onecolor', onecolor(highlightColor), onecolor(highlightColor).rotate)
-
+      let color = apemancolor.rotate(highlightColor, bodyIndex / bodies.length * 360)
       let points = joints.map(toPoint)
 
       ctx.fillStyle = color
-      // ctx.strokeStyle = ApStyle.colorAlpha(color, 0.9)
-      // ctx.strokeStyle = color
+      ctx.strokeStyle = apemancolor.parse(color).alpha(0.66).rgbaString()
       ctx.lineWidth = lineWidth
 
       let spineB = points[ SPINE_BASE ]

@@ -14,6 +14,6 @@ const REPO = 'upstream'
 
 apeTasking.runTasks('merge', [
   () => apeTasking.execcli('git', [ 'fetch', `${REPO}` ]),
-  () => apeTasking.execcli('git', [ 'merge', `${REPO}/master` ]),
+  () => apeTasking.execcli('git', [ 'merge', `${REPO}/master` ])
 ], true)
 
