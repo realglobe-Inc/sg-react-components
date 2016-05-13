@@ -46,7 +46,6 @@ const SgAlbum = React.createClass({
 
   getInitialState () {
     return {
-      right: 0,
       nth: 1
     }
   },
@@ -164,22 +163,14 @@ const SgAlbum = React.createClass({
 
   toRight () {
     let {props, state} = this
-    if (state.nth < props.imageList.length) {
-      this.setState({
-        right: state.nth * props.width,
-        nth: state.nth + 1
-      })
-    }
+    let nth = state.nth % props.imageList.length + 1
+    this.setState({nth})
   },
 
   toLeft () {
-    let {props, state} = this
-    if (state.nth > 1) {
-      this.setState({
-        right: (state.nth - 2) * props.width,
-        nth: state.nth - 1
-      })
-    }
+    let {state, props} = this
+    let nth = (state.nth + props.imageList.length - 2) % props.imageList.length + 1
+    this.setState({nth})
   }
 
 })
