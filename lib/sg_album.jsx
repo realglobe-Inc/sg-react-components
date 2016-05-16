@@ -81,7 +81,8 @@ const SgAlbum = React.createClass({
             <div className='sg-album-thumbnail-selected'/>
             {
               imageList.map((image, i) => {
-                let key = image.slice(-50)
+                // 配列の前方から画像を挿入しても、各画像に対するkeyを不変にする。画像データをkeyにすると同じ画像を挿入するとエラーになる
+                let key = imageList.length - i
                 return (
                   <div className='sg-album-thumbnail-img-effect' key={ key } data={ i } onClick={ this.moveTo }>
                     <img className='sg-album-thumbnail-img' src={ image } key={ key }/>
