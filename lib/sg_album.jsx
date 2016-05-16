@@ -60,7 +60,9 @@ const SgAlbum = React.createClass({
     return (
       <div className={ classnames('sg-album', props.className) }
            style={ Object.assign({}, props.style) }>
-        <ApStyle data={ style } />
+        <style className='sg-album-style' type='text/css'>
+          { style }
+        </style>
         <div className='sg-album-container'>
           <div className='sg-album-header'>
             <ApPrevButton onTap={ s.toLeft } />
@@ -82,8 +84,8 @@ const SgAlbum = React.createClass({
               imageList.map((image, i) => {
                 let key = image.slice(-50)
                 return (
-                  <div className='sg-album-thumbnail-img-back' key={ key }>
-                    <img className='sg-album-thumbnail-img' src={ image } key={ key } data={ i } onClick={ this.moveTo }/>
+                  <div className='sg-album-thumbnail-img-effect' key={ key } data={ i } onClick={ this.moveTo }>
+                    <img className='sg-album-thumbnail-img' src={ image } key={ key }/>
                   </div>
                 )
               })
@@ -118,66 +120,85 @@ const SgAlbum = React.createClass({
     let thumbnailHeight = thumbnailWidth * 3 / 4
     let thumbnailLeft = thumbnailWidth * ((state.nth - 1) % thumbnailCol)
     let thumbnailTop = thumbnailHeight * Math.floor((state.nth - 1) / thumbnailCol)
-    return {
-      // main
-      '.sg-album-container': {
-        width: `${width}px`,
-        margin: '5px'
-      },
-      '.sg-album-display': {
-        width: `${width}px`,
-        overflow: 'hidden',
-        borderBottom: '2px solid #666'
-      },
-      '.sg-album-full-img': {
-        width: `${width * imageList.length}px`,
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        right: `${displayRight}px`,
-        transition: 'all 0.3s ease'
-      },
-      '.sg-album-img': {
-        width: width
-      },
-      // header
-      '.sg-album-header': {
-        position: 'relative',
-        textAlign: 'center'
-      },
-      '.sg-album-nth': {
-        position: 'absolute',
-        right: 0,
-        top: '10px'
-      },
-      // thumbnail
-      '.sg-album-thumbnail': {
-        width: `${width}px`,
-        position: 'relative'
-      },
-      '.sg-album-thumbnail-img-back': {
-        zIndex: 1,
-        display: 'inline-block',
-        width: `${thumbnailWidth}px`,
-        backgroundColor: thumbnailSelectedColor
-      },
-      '.sg-album-thumbnail-img': {
-        width: `${thumbnailWidth}px`
-      },
-      '.sg-album-thumbnail-img:hover': {
-        opacity: 0.9
-      },
-      '.sg-album-thumbnail-selected': {
-        position: 'absolute',
-        zIndex: 2,
-        width: `${thumbnailWidth}px`,
-        height: `${thumbnailHeight}px`,
-        transition: 'all 0.3s ease',
-        boxSizing: 'border-box',
-        border: `2px solid ${thumbnailSelectedColor}`,
-        left: `${thumbnailLeft}px`,
-        top: `${thumbnailTop}px`
-      }
-    }
+    return `
+.sg-album-container {
+  width: ${width}px;
+  margin: 5px;
+}
+.sg-album-display {
+  width: ${width}px;
+  overflow: hidden;
+  border-bottom: 2px solid #666;
+}
+.sg-album-full-img {
+  width: ${width * imageList.length}px;
+  position: relative;
+  white-space: nowrap;
+  right: ${displayRight}px;
+  transition: all 0.3s ease;
+}
+.sg-album-img {
+  width: ${width}px;
+}
+.sg-album-header {
+  position: relative;
+  text-align: center;
+}
+.sg-album-nth {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+.sg-album-thumbnail {
+  width: ${width}px;
+  position: relative;
+}
+.sg-album-thumbnail-img-effect {
+  z-index: 1;
+  display: inline-block;
+  position: relative;
+  width: ${thumbnailWidth}px;
+}
+.sg-album-thumbnail-img-effect:hover:before {
+  content: "";
+  cursor: pointer;
+  position: absolute;
+  z-index: 3;
+  display: block;
+  width: ${thumbnailWidth}px;
+  height: ${thumbnailHeight}px;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+.sg-album-thumbnail-img-effect:active:before {
+  content: "";
+  cursor: pointer;
+  position: absolute;
+  z-index: 3;
+  display: block;
+  width: ${thumbnailWidth}px;
+  height: ${thumbnailHeight}px;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+.sg-album-thumbnail-img {
+  width: ${thumbnailWidth}px;
+}
+.sg-album-thumbnail-selected {
+  position: absolute;
+  cursor: pointer;
+  z-index: 2;
+  width: ${thumbnailWidth}px;
+  height: ${thumbnailHeight}px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  border: 2px solid ${thumbnailSelectedColor};
+  left: ${thumbnailLeft}px;
+  top: ${thumbnailTop}px;
+}
+`
   },
 
   toRight () {
