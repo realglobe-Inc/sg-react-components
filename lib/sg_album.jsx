@@ -7,7 +7,6 @@
 
 import React, {PropTypes as types} from 'react'
 import classnames from 'classnames'
-import {ApStyle} from 'apeman-react-style' // インラインでは :hover が使えなかったので
 import {ApNextButton, ApPrevButton} from 'apeman-react-button'
 
 /** @lends SgAlbum */
