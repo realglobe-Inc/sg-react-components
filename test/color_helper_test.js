@@ -1,14 +1,14 @@
 /**
- * Test case for kinnectHandState.
+ * Test case for colorHelper.
  * Runs with mocha.
  */
 'use strict'
 
-const kinnectHandState = require('../lib/constants/kinnect_hand_state.js')
+const colorHelper = require('../lib/helpers/color_helper.js')
 const assert = require('assert')
 const co = require('co')
 
-describe('kinnect-hand-state', () => {
+describe('color-helper', () => {
   before(() => co(function * () {
 
   }))
@@ -17,7 +17,7 @@ describe('kinnect-hand-state', () => {
 
   }))
 
-  it('Kinnect hand state', () => co(function * () {
+  it('Color helper', () => co(function * () {
 
   }))
 })
