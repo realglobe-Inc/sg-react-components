@@ -38,7 +38,7 @@ const Demo = React.createClass({
         <fieldset>
           <legend>SgKinectFrame</legend>
           <div>
-            <SgKinectFrame frame={ require('./data/mock-kinnect-body-frame') }/>
+            <SgKinectFrame bodies={ require('./data/mock-kinnect-body-frame') }/>
           </div>
         </fieldset>
       </div>

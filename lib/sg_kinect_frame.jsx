@@ -20,7 +20,7 @@ const SgKinectFrame = React.createClass({
 
   propTypes: {
     /** Body frame data from kinect */
-    frame: types.array,
+    bodies: types.array,
     /** Component width */
     width: types.number,
     /** Component height */
@@ -64,13 +64,13 @@ const SgKinectFrame = React.createClass({
   componentDidMount () {
     const s = this
     let { props } = s
-    s.drawBody(props.frame)
+    s.drawBody(props.bodies)
   },
 
   componentDidUpdate () {
     const s = this
     let { props } = s
-    s.drawBody(props.frame)
+    s.drawBody(props.bodies)
   },
 
   // --------------------
@@ -82,6 +82,10 @@ const SgKinectFrame = React.createClass({
     let { canvas } = s
 
     if (!canvas) {
+      return
+    }
+
+    if (!bodies) {
       return
     }
 
@@ -98,6 +102,7 @@ const SgKinectFrame = React.createClass({
     let { width, height, highlightColor, lineWidth } = props
 
     let ctx = canvas.getContext('2d')
+    ctx.save()
 
     const { drawCircle, drawLine } = drawHelper
     let toPoint = (joint) => ({
@@ -106,7 +111,6 @@ const SgKinectFrame = React.createClass({
     })
 
     ctx.scale(2, 2)
-    ctx.save()
     ctx.clearRect(0, 0, width, height)
 
     bodies.forEach((body, bodyIndex) => {
@@ -177,6 +181,7 @@ const SgKinectFrame = React.createClass({
         }
       }
     })
+
     ctx.restore()
   },
 
