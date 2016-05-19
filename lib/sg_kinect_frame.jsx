@@ -10,6 +10,7 @@ import classnames from 'classnames'
 import apemancolor from 'apemancolor'
 import {depthSpace, jointTypes} from 'sg-kinect-constants'
 import * as drawHelper from './helpers/draw_helper'
+import * as colorHelper from './helpers/color_helper'
 
 /** @lends SgKinectFrame */
 const SgKinectFrame = React.createClass({
@@ -26,17 +27,20 @@ const SgKinectFrame = React.createClass({
     /** Component height */
     height: types.number,
     /** Highlight color */
-    highlightColor: types.string,
+    baseColor: types.string,
     /** Width of lines */
-    lineWidth: types.number
+    lineWidth: types.number,
+    /** Scale rate of canvas */
+    scale: types.number
   },
 
   getDefaultProps () {
     return {
       width: depthSpace.BOUND_WIDTH,
       height: depthSpace.BOUND_HEIGHT,
-      highlightColor: '#CCCC33',
-      lineWidth: 4
+      baseColor: '#CCCC33',
+      lineWidth: 4,
+      scale: 2
     }
   },
 
@@ -45,13 +49,13 @@ const SgKinectFrame = React.createClass({
   render () {
     const s = this
     let { state, props } = s
-    let { width, height } = props
+    let { width, height, scale } = props
     return (
       <div className={ classnames('sg-kinnect-joint', props.className) }
            style={ Object.assign({
            }, props.style) }>
-        <canvas width={ width * 2 }
-                height={ height * 2 }
+        <canvas width={ width * scale }
+                height={ height * scale }
                 style={ Object.assign({
                   width, height
                 }) }
@@ -59,6 +63,11 @@ const SgKinectFrame = React.createClass({
         { props.children }
       </div>
     )
+  },
+
+  componentWillMount () {
+    const s = this
+    s._trackingColors = {}
   },
 
   componentDidMount () {
@@ -99,7 +108,7 @@ const SgKinectFrame = React.createClass({
     } = jointTypes
 
     let { props } = s
-    let { width, height, highlightColor, lineWidth } = props
+    let { width, height, lineWidth, scale } = props
 
     let ctx = canvas.getContext('2d')
     ctx.save()
@@ -110,16 +119,16 @@ const SgKinectFrame = React.createClass({
       y: joint.depthY * height
     })
 
-    ctx.scale(2, 2)
+    ctx.scale(scale, scale)
     ctx.clearRect(0, 0, width, height)
 
     bodies
       .filter((body) => !!body)
       .filter((body) => body.tracked)
       .forEach((body, bodyIndex) => {
-        let { joints } = body
+        let { joints, trackingId } = body
 
-        let color = apemancolor.rotate(highlightColor, bodyIndex / bodies.length * 360)
+        let color = s.colorForTrack(trackingId)
         let points = joints.map(toPoint)
 
         ctx.fillStyle = color
@@ -185,6 +194,18 @@ const SgKinectFrame = React.createClass({
     ctx.restore()
   },
 
+  colorForTrack (trackingId) {
+    const s = this
+    let color = s._trackingColors[ trackingId ]
+    if (color) {
+      return color
+    }
+    let { baseColor } = s.props
+    color = colorHelper.randomColor(baseColor)
+    s._trackingColors[ trackingId ] = color
+    return color
+  },
+
   // --------------------
   // Custom
   // --------------------
@@ -194,7 +215,9 @@ const SgKinectFrame = React.createClass({
     s.canvas = canvas
   },
 
-  canvas: null
+  canvas: null,
+
+  _trackingColors: null
 
 })
 
