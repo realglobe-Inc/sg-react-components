@@ -113,74 +113,74 @@ const SgKinectFrame = React.createClass({
     ctx.scale(2, 2)
     ctx.clearRect(0, 0, width, height)
 
-    bodies.forEach((body, bodyIndex) => {
-      let { joints, tracked } = body
-      if (!tracked) {
-        return
-      }
+    bodies
+      .filter((body) => !!body)
+      .filter((body) => body.tracked)
+      .forEach((body, bodyIndex) => {
+        let { joints } = body
 
-      let color = apemancolor.rotate(highlightColor, bodyIndex / bodies.length * 360)
-      let points = joints.map(toPoint)
+        let color = apemancolor.rotate(highlightColor, bodyIndex / bodies.length * 360)
+        let points = joints.map(toPoint)
 
-      ctx.fillStyle = color
-      ctx.strokeStyle = apemancolor.parse(color).alpha(0.66).rgbaString()
-      ctx.lineWidth = lineWidth
+        ctx.fillStyle = color
+        ctx.strokeStyle = apemancolor.parse(color).alpha(0.66).rgbaString()
+        ctx.lineWidth = lineWidth
 
-      let spineB = points[ SPINE_BASE ]
-      let spineM = points[ SPINE_MID ]
-      let neck = points[ NECK ]
-      let head = points[ HEAD ]
-      let shoulderL = points[ SHOULDER_LEFT ]
-      let elbowL = points[ ELBOW_LEFT ]
-      let wristL = points[ WRIST_LEFT ]
-      let handL = points[ HAND_LEFT ]
-      let shoulderR = points[ SHOULDER_RIGHT ]
-      let elbowR = points[ ELBOW_RIGHT ]
-      let wristR = points[ WRIST_RIGHT ]
-      let handR = points[ HAND_RIGHT ]
-      let hipL = points[ HIP_LEFT ]
-      let kneeL = points[ KNEE_LEFT ]
-      let ankleL = points[ ANKLE_LEFT ]
-      let footL = points[ FOOT_LEFT ]
-      let hipR = points[ HIP_RIGHT ]
-      let kneeR = points[ KNEE_RIGHT ]
-      let ankleR = points[ ANKLE_RIGHT ]
-      let footR = points[ FOOT_RIGHT ]
-      let spineShoulder = points[ SPINE_SHOULDER ]
-      let handTipL = points[ HAND_TIP_LEFT ]
-      let thumbL = points[ THUMB_LEFT ]
-      let handTipR = points[ HAND_TIP_RIGHT ]
-      let thumbR = points[ THUMB_RIGHT ]
+        let spineB = points[ SPINE_BASE ]
+        let spineM = points[ SPINE_MID ]
+        let neck = points[ NECK ]
+        let head = points[ HEAD ]
+        let shoulderL = points[ SHOULDER_LEFT ]
+        let elbowL = points[ ELBOW_LEFT ]
+        let wristL = points[ WRIST_LEFT ]
+        let handL = points[ HAND_LEFT ]
+        let shoulderR = points[ SHOULDER_RIGHT ]
+        let elbowR = points[ ELBOW_RIGHT ]
+        let wristR = points[ WRIST_RIGHT ]
+        let handR = points[ HAND_RIGHT ]
+        let hipL = points[ HIP_LEFT ]
+        let kneeL = points[ KNEE_LEFT ]
+        let ankleL = points[ ANKLE_LEFT ]
+        let footL = points[ FOOT_LEFT ]
+        let hipR = points[ HIP_RIGHT ]
+        let kneeR = points[ KNEE_RIGHT ]
+        let ankleR = points[ ANKLE_RIGHT ]
+        let footR = points[ FOOT_RIGHT ]
+        let spineShoulder = points[ SPINE_SHOULDER ]
+        let handTipL = points[ HAND_TIP_LEFT ]
+        let thumbL = points[ THUMB_LEFT ]
+        let handTipR = points[ HAND_TIP_RIGHT ]
+        let thumbR = points[ THUMB_RIGHT ]
 
-      // Draw lines
-      {
-        let linePoints = [
-          [ head, neck, spineShoulder, spineM, spineB ],
-          [ spineShoulder, shoulderL, elbowL, wristL, handL, handTipL, thumbL ],
-          [ spineB, hipL, kneeL, ankleL, footL ],
-          [ spineShoulder, shoulderR, elbowR, wristR, handR, handTipR, thumbR ],
-          [ spineB, hipR, kneeR, ankleR, footR ]
-        ]
-        for (let linePoint of linePoints) {
-          drawLine(ctx, ...linePoint)
+        // Draw lines
+        {
+          let linePoints = [
+            [ head, neck, spineShoulder, spineM, spineB ],
+            [ spineShoulder, shoulderL, elbowL, wristL, handL, handTipL, thumbL ],
+            [ spineB, hipL, kneeL, ankleL, footL ],
+            [ spineShoulder, shoulderR, elbowR, wristR, handR, handTipR, thumbR ],
+            [ spineB, hipR, kneeR, ankleR, footR ]
+          ]
+          for (let linePoint of linePoints) {
+            drawLine(ctx, ...linePoint)
+          }
         }
-      }
 
-      // Draw circles
-      {
-        const RADIUS = lineWidth + 1
-        let circlePoints = [
-          head, neck, spineShoulder, spineM, spineB,
-          shoulderL, hipL, elbowL, wristL,
-          shoulderR, hipR, elbowR, wristR,
-          handL, handTipL, thumbL,
-          handR, handTipR, thumbR
-        ]
-        for (let circlePoint of circlePoints) {
-          drawCircle(ctx, circlePoint, RADIUS)
+        // Draw circles
+        {
+          const RADIUS = lineWidth + 1
+          let circlePoints = [
+            head, neck, spineShoulder, spineM, spineB,
+            shoulderL, hipL, elbowL, wristL,
+            shoulderR, hipR, elbowR, wristR,
+            handL, handTipL, thumbL,
+            handR, handTipR, thumbR
+          ]
+          for (let circlePoint of circlePoints) {
+            drawCircle(ctx, circlePoint, RADIUS)
+          }
         }
-      }
-    })
+      })
 
     ctx.restore()
   },
