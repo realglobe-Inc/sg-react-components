@@ -173,8 +173,9 @@ Components
 | bodies | array |  | | Body frame data from kinect |
 | width | number | depthSpace.BOUND_WIDTH | | Component width |
 | height | number | depthSpace.BOUND_HEIGHT | | Component height |
-| highlightColor | string | &#x27;#CCCC33&#x27; | | Highlight color |
+| baseColor | string | &#x27;#CCCC33&#x27; | | Highlight color |
 | lineWidth | number | 4 | | Width of lines |
+| scale | number | 2 | | Scale rate of canvas |
 
 ### SgMain
 
