@@ -31,7 +31,9 @@ const SgKinectFrame = React.createClass({
     /** Width of lines */
     lineWidth: types.number,
     /** Scale rate of canvas */
-    scale: types.number
+    scale: types.number,
+    /** Alt message when no body found */
+    alt: types.string
   },
 
   getDefaultProps () {
@@ -40,7 +42,8 @@ const SgKinectFrame = React.createClass({
       height: depthSpace.BOUND_HEIGHT,
       baseColor: '#CCCC33',
       lineWidth: 4,
-      scale: 2
+      scale: 2,
+      alt: 'NO BODY FOUND'
     }
   },
 
@@ -50,10 +53,13 @@ const SgKinectFrame = React.createClass({
     const s = this
     let { state, props } = s
     let { width, height, scale } = props
+    let style = s.getStyle()
+    let isEmpty = s.getBodies().length === 0
     return (
-      <div className={ classnames('sg-kinnect-joint', props.className) }
+      <div className={ classnames('sg-kinnect-frame', props.className) }
            style={ Object.assign({
-           }, props.style) }>
+           }, style.main, props.style) }>
+        { isEmpty ? s._renderAlt(style.alt) : null }
         <canvas width={ width * scale }
                 height={ height * scale }
                 style={ Object.assign({
@@ -72,14 +78,12 @@ const SgKinectFrame = React.createClass({
 
   componentDidMount () {
     const s = this
-    let { props } = s
-    s.drawBody(props.bodies)
+    s.drawBody(s.getBodies())
   },
 
   componentDidUpdate () {
     const s = this
-    let { props } = s
-    s.drawBody(props.bodies)
+    s.drawBody(s.getBodies())
   },
 
   // --------------------
@@ -91,10 +95,6 @@ const SgKinectFrame = React.createClass({
     let { canvas } = s
 
     if (!canvas) {
-      return
-    }
-
-    if (!bodies) {
       return
     }
 
@@ -122,74 +122,71 @@ const SgKinectFrame = React.createClass({
     ctx.scale(scale, scale)
     ctx.clearRect(0, 0, width, height)
 
-    bodies
-      .filter((body) => !!body)
-      .filter((body) => body.tracked)
-      .forEach((body, bodyIndex) => {
-        let { joints, trackingId } = body
+    for (let body of bodies) {
+      let { joints, trackingId } = body
 
-        let color = s.colorForTrack(trackingId)
-        let points = joints.map(toPoint)
+      let color = s.colorForTrack(trackingId)
+      let points = joints.map(toPoint)
 
-        ctx.fillStyle = color
-        ctx.strokeStyle = apemancolor.parse(color).alpha(0.66).rgbaString()
-        ctx.lineWidth = lineWidth
+      ctx.fillStyle = color
+      ctx.strokeStyle = apemancolor.parse(color).alpha(0.66).rgbaString()
+      ctx.lineWidth = lineWidth
 
-        let spineB = points[ SPINE_BASE ]
-        let spineM = points[ SPINE_MID ]
-        let neck = points[ NECK ]
-        let head = points[ HEAD ]
-        let shoulderL = points[ SHOULDER_LEFT ]
-        let elbowL = points[ ELBOW_LEFT ]
-        let wristL = points[ WRIST_LEFT ]
-        let handL = points[ HAND_LEFT ]
-        let shoulderR = points[ SHOULDER_RIGHT ]
-        let elbowR = points[ ELBOW_RIGHT ]
-        let wristR = points[ WRIST_RIGHT ]
-        let handR = points[ HAND_RIGHT ]
-        let hipL = points[ HIP_LEFT ]
-        let kneeL = points[ KNEE_LEFT ]
-        let ankleL = points[ ANKLE_LEFT ]
-        let footL = points[ FOOT_LEFT ]
-        let hipR = points[ HIP_RIGHT ]
-        let kneeR = points[ KNEE_RIGHT ]
-        let ankleR = points[ ANKLE_RIGHT ]
-        let footR = points[ FOOT_RIGHT ]
-        let spineShoulder = points[ SPINE_SHOULDER ]
-        let handTipL = points[ HAND_TIP_LEFT ]
-        let thumbL = points[ THUMB_LEFT ]
-        let handTipR = points[ HAND_TIP_RIGHT ]
-        let thumbR = points[ THUMB_RIGHT ]
+      let spineB = points[ SPINE_BASE ]
+      let spineM = points[ SPINE_MID ]
+      let neck = points[ NECK ]
+      let head = points[ HEAD ]
+      let shoulderL = points[ SHOULDER_LEFT ]
+      let elbowL = points[ ELBOW_LEFT ]
+      let wristL = points[ WRIST_LEFT ]
+      let handL = points[ HAND_LEFT ]
+      let shoulderR = points[ SHOULDER_RIGHT ]
+      let elbowR = points[ ELBOW_RIGHT ]
+      let wristR = points[ WRIST_RIGHT ]
+      let handR = points[ HAND_RIGHT ]
+      let hipL = points[ HIP_LEFT ]
+      let kneeL = points[ KNEE_LEFT ]
+      let ankleL = points[ ANKLE_LEFT ]
+      let footL = points[ FOOT_LEFT ]
+      let hipR = points[ HIP_RIGHT ]
+      let kneeR = points[ KNEE_RIGHT ]
+      let ankleR = points[ ANKLE_RIGHT ]
+      let footR = points[ FOOT_RIGHT ]
+      let spineShoulder = points[ SPINE_SHOULDER ]
+      let handTipL = points[ HAND_TIP_LEFT ]
+      let thumbL = points[ THUMB_LEFT ]
+      let handTipR = points[ HAND_TIP_RIGHT ]
+      let thumbR = points[ THUMB_RIGHT ]
 
-        // Draw lines
-        {
-          let linePoints = [
-            [ head, neck, spineShoulder, spineM, spineB ],
-            [ spineShoulder, shoulderL, elbowL, wristL, handL, handTipL, thumbL ],
-            [ spineB, hipL, kneeL, ankleL, footL ],
-            [ spineShoulder, shoulderR, elbowR, wristR, handR, handTipR, thumbR ],
-            [ spineB, hipR, kneeR, ankleR, footR ]
-          ]
-          for (let linePoint of linePoints) {
-            drawLine(ctx, ...linePoint)
-          }
+      // Draw lines
+      {
+        let linePoints = [
+          [ head, neck, spineShoulder, spineM, spineB ],
+          [ spineShoulder, shoulderL, elbowL, wristL, handL, handTipL, thumbL ],
+          [ spineB, hipL, kneeL, ankleL, footL ],
+          [ spineShoulder, shoulderR, elbowR, wristR, handR, handTipR, thumbR ],
+          [ spineB, hipR, kneeR, ankleR, footR ]
+        ]
+        for (let linePoint of linePoints) {
+          drawLine(ctx, ...linePoint)
         }
+      }
 
-        // Draw circles
-        {
-          const RADIUS = lineWidth + 1
-          let circlePoints = [
-            head, neck, spineShoulder, spineM, spineB,
-            shoulderL, hipL, elbowL, wristL,
-            shoulderR, hipR, elbowR, wristR,
-            handL, handTipL, thumbL,
-            handR, handTipR, thumbR
-          ]
-          for (let circlePoint of circlePoints) {
-            drawCircle(ctx, circlePoint, RADIUS)
-          }
+      // Draw circles
+      {
+        const RADIUS = lineWidth + 1
+        let circlePoints = [
+          head, neck, spineShoulder, spineM, spineB,
+          shoulderL, hipL, elbowL, wristL,
+          shoulderR, hipR, elbowR, wristR,
+          handL, handTipL, thumbL,
+          handR, handTipR, thumbR
+        ]
+        for (let circlePoint of circlePoints) {
+          drawCircle(ctx, circlePoint, RADIUS)
         }
-      })
+      }
+    }
 
     ctx.restore()
   },
@@ -213,6 +210,48 @@ const SgKinectFrame = React.createClass({
   registerCanvas (canvas) {
     const s = this
     s.canvas = canvas
+  },
+
+  getStyle () {
+    return {
+      main: {
+        position: 'relative'
+      },
+      alt: {
+        position: 'absolute',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#EEE',
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0,0,0,0.1)',
+        fontSize: '36px',
+        zIndex: '4',
+        lineHeight: '1em',
+        wordBreak: 'break-word',
+        textAlign: 'center'
+      }
+    }
+  },
+
+  getBodies () {
+    const s = this
+    let { props } = s
+    return (props.bodies || [])
+      .filter((body) => !!body)
+      .filter((body) => body.tracked)
+  },
+
+  _renderAlt (style) {
+    const s = this
+    let { props } = s
+    return (
+      <div className="sg-kinnect-frame-alt" style={ style }
+      >{ props.alt }</div>
+    )
   },
 
   canvas: null,

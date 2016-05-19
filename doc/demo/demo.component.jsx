@@ -38,7 +38,8 @@ const Demo = React.createClass({
         <fieldset>
           <legend>SgKinectFrame</legend>
           <div>
-            <SgKinectFrame bodies={ require('./data/mock-kinnect-bodies') }/>
+            <SgKinectFrame style={{ display: 'inline-block' }} width={ 256 } height={ 128 } bodies={ require('./data/mock-kinnect-bodies') }/>
+            <SgKinectFrame style={{ display: 'inline-block' }} width={ 256 } height={ 128 } bodies={ null }/>
           </div>
         </fieldset>
       </div>
