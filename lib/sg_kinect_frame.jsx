@@ -10,6 +10,7 @@ import classnames from 'classnames'
 import apemancolor from 'apemancolor'
 import {depthSpace, jointTypes} from 'sg-kinect-constants'
 import * as drawHelper from './helpers/draw_helper'
+import * as colorHelper from './helpers/color_helper'
 
 /** @lends SgKinectFrame */
 const SgKinectFrame = React.createClass({
@@ -20,23 +21,29 @@ const SgKinectFrame = React.createClass({
 
   propTypes: {
     /** Body frame data from kinect */
-    frame: types.array,
+    bodies: types.array,
     /** Component width */
     width: types.number,
     /** Component height */
     height: types.number,
-    /** Highlight color */
-    highlightColor: types.string,
     /** Width of lines */
-    lineWidth: types.number
+    lineWidth: types.number,
+    /** Scale rate of canvas */
+    scale: types.number,
+    /** Alt message when no body found */
+    alt: types.string,
+    /** Colorizer function */
+    colorizer: types.func
   },
 
   getDefaultProps () {
     return {
       width: depthSpace.BOUND_WIDTH,
       height: depthSpace.BOUND_HEIGHT,
-      highlightColor: '#CCCC33',
-      lineWidth: 4
+      lineWidth: 4,
+      scale: 2,
+      alt: 'NO BODY FOUND',
+      colorizer: colorHelper.uniqueColorizer('#CCCC33')
     }
   },
 
@@ -45,13 +52,16 @@ const SgKinectFrame = React.createClass({
   render () {
     const s = this
     let { state, props } = s
-    let { width, height } = props
+    let { width, height, scale } = props
+    let style = s.getStyle()
+    let isEmpty = s.getBodies().length === 0
     return (
-      <div className={ classnames('sg-kinnect-joint', props.className) }
+      <div className={ classnames('sg-kinnect-frame', props.className) }
            style={ Object.assign({
-           }, props.style) }>
-        <canvas width={ width * 2 }
-                height={ height * 2 }
+           }, style.main, props.style) }>
+        { isEmpty ? s._renderAlt(style.alt) : null }
+        <canvas width={ width * scale }
+                height={ height * scale }
                 style={ Object.assign({
                   width, height
                 }) }
@@ -61,16 +71,19 @@ const SgKinectFrame = React.createClass({
     )
   },
 
+  componentWillMount () {
+    const s = this
+    s._trackingColors = {}
+  },
+
   componentDidMount () {
     const s = this
-    let { props } = s
-    s.drawBody(props.frame)
+    s.drawBody(s.getBodies())
   },
 
   componentDidUpdate () {
     const s = this
-    let { props } = s
-    s.drawBody(props.frame)
+    s.drawBody(s.getBodies())
   },
 
   // --------------------
@@ -95,9 +108,10 @@ const SgKinectFrame = React.createClass({
     } = jointTypes
 
     let { props } = s
-    let { width, height, highlightColor, lineWidth } = props
+    let { width, height, lineWidth, scale, colorizer } = props
 
     let ctx = canvas.getContext('2d')
+    ctx.save()
 
     const { drawCircle, drawLine } = drawHelper
     let toPoint = (joint) => ({
@@ -105,17 +119,13 @@ const SgKinectFrame = React.createClass({
       y: joint.depthY * height
     })
 
-    ctx.scale(2, 2)
-    ctx.save()
+    ctx.scale(scale, scale)
     ctx.clearRect(0, 0, width, height)
 
-    bodies.forEach((body, bodyIndex) => {
-      let { joints, tracked } = body
-      if (!tracked) {
-        return
-      }
+    for (let body of bodies) {
+      let { joints, trackingId } = body
 
-      let color = apemancolor.rotate(highlightColor, bodyIndex / bodies.length * 360)
+      let color = colorizer(`tracking-${trackingId}`)
       let points = joints.map(toPoint)
 
       ctx.fillStyle = color
@@ -176,7 +186,8 @@ const SgKinectFrame = React.createClass({
           drawCircle(ctx, circlePoint, RADIUS)
         }
       }
-    })
+    }
+
     ctx.restore()
   },
 
@@ -189,7 +200,51 @@ const SgKinectFrame = React.createClass({
     s.canvas = canvas
   },
 
-  canvas: null
+  getStyle () {
+    return {
+      main: {
+        position: 'relative'
+      },
+      alt: {
+        position: 'absolute',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#EEE',
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0,0,0,0.1)',
+        fontSize: '36px',
+        zIndex: '4',
+        lineHeight: '1em',
+        wordBreak: 'break-word',
+        textAlign: 'center'
+      }
+    }
+  },
+
+  getBodies () {
+    const s = this
+    let { props } = s
+    return (props.bodies || [])
+      .filter((body) => !!body)
+      .filter((body) => body.tracked)
+  },
+
+  _renderAlt (style) {
+    const s = this
+    let { props } = s
+    return (
+      <div className="sg-kinnect-frame-alt" style={ style }
+      >{ props.alt }</div>
+    )
+  },
+
+  canvas: null,
+
+  _trackingColors: null
 
 })
 
