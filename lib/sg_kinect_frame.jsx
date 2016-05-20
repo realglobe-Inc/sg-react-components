@@ -26,24 +26,24 @@ const SgKinectFrame = React.createClass({
     width: types.number,
     /** Component height */
     height: types.number,
-    /** Highlight color */
-    baseColor: types.string,
     /** Width of lines */
     lineWidth: types.number,
     /** Scale rate of canvas */
     scale: types.number,
     /** Alt message when no body found */
-    alt: types.string
+    alt: types.string,
+    /** Colorizer function */
+    colorizer: types.func
   },
 
   getDefaultProps () {
     return {
       width: depthSpace.BOUND_WIDTH,
       height: depthSpace.BOUND_HEIGHT,
-      baseColor: '#CCCC33',
       lineWidth: 4,
       scale: 2,
-      alt: 'NO BODY FOUND'
+      alt: 'NO BODY FOUND',
+      colorizer: colorHelper.uniqueColorizer('#CCCC33')
     }
   },
 
@@ -108,7 +108,7 @@ const SgKinectFrame = React.createClass({
     } = jointTypes
 
     let { props } = s
-    let { width, height, lineWidth, scale } = props
+    let { width, height, lineWidth, scale, colorizer } = props
 
     let ctx = canvas.getContext('2d')
     ctx.save()
@@ -125,7 +125,7 @@ const SgKinectFrame = React.createClass({
     for (let body of bodies) {
       let { joints, trackingId } = body
 
-      let color = s.colorForTrack(trackingId)
+      let color = colorizer(`tracking-${trackingId}`)
       let points = joints.map(toPoint)
 
       ctx.fillStyle = color
@@ -189,18 +189,6 @@ const SgKinectFrame = React.createClass({
     }
 
     ctx.restore()
-  },
-
-  colorForTrack (trackingId) {
-    const s = this
-    let color = s._trackingColors[ trackingId ]
-    if (color) {
-      return color
-    }
-    let { baseColor } = s.props
-    color = colorHelper.randomColor(baseColor)
-    s._trackingColors[ trackingId ] = color
-    return color
   },
 
   // --------------------

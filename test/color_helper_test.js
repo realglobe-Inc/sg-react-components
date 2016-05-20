@@ -18,7 +18,9 @@ describe('color-helper', () => {
   }))
 
   it('Color helper', () => co(function * () {
-
+    for (let i = 0; i < 100; i++) {
+      assert.ok(colorHelper.randomColor('#38A'))
+    }
   }))
 })
 
