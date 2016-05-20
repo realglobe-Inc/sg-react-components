@@ -1,8 +1,12 @@
 [
   "SgHtml",
   "SgBody",
+  "SgHead",
   "SgButton",
   "SgPage",
   "SgMain",
-  "SgHeader"
+  "SgHeader",
+  "SgKinectFrame",
+  "SgThemeStyle",
+  "SgAlbum"
 ]

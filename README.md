@@ -87,12 +87,17 @@ Usage
 'use strict'
 
 import React from 'react'
-import {SgHtml, SgHtmlStyle} from 'sg-react-components'
+import {
+  SgHtml, SgHead, SgBody, SgThemeStyle
+} from 'sg-react-components'
 
 const ExampleComponent = React.createClass({
   render () {
     return (
       <SgHtml>
+        <SgBody>
+
+        </SgBody>
       </SgHtml>
     )
   }
@@ -112,6 +117,18 @@ Components
 -----
 
 
+### SgAlbum
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| width | number | 300 | | Width(px) of a image. |
+| imageList | array | [] | | List of image src. |
+| thumbnailCol | number | 4 | | Number of images per 1 row in the thumbnail. |
+| thumbnailSelectedColor | string | &#x27;yellow&#x27; | | Border color of selected image in the thumbnail. |
+| onChange | func |  | | Called when update. Argument is index of imageList. |
+
 ### SgBody
 
 **Props**
@@ -120,6 +137,13 @@ Components
 | ---- | ---- | ------- | ----------- |
 
 ### SgButton
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+
+### SgHead
 
 **Props**
 
@@ -139,6 +163,18 @@ Components
 
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
+
+### SgKinectFrame
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| frame | array |  | | Body frame data from kinect |
+| width | number | depthSpace.BOUND_WIDTH | | Component width |
+| height | number | depthSpace.BOUND_HEIGHT | | Component height |
+| highlightColor | string | &#x27;#CCCC33&#x27; | | Highlight color |
+| lineWidth | number | 4 | | Width of lines |
 
 ### SgMain
 

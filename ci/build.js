@@ -12,11 +12,11 @@ const apeTasking = require('ape-tasking')
 const coz = require('coz')
 
 apeTasking.runTasks('build', [
+  () => apeTasking.execcli('node', [ './ci/compile.js' ]),
   () => coz.render([
     '.*.bud',
     'doc/**/.*.bud',
     'lib/.*.bud',
     'test/.*.bud'
-  ]),
-  () => apeTasking.execcli('node', [ './ci/compile.js' ]),
+  ])
 ], true)
