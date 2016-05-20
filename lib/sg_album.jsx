@@ -40,7 +40,7 @@ const SgAlbum = React.createClass({
       imageList: [],
       width: 300,
       thumbnailCol: 4,
-      thumbnailSelectedColor: 'red'
+      thumbnailSelectedColor: 'yellow'
     }
   },
 
@@ -58,28 +58,39 @@ const SgAlbum = React.createClass({
 
     return (
       <div className={ classnames('sg-album', props.className) }
-           style={ Object.assign(style.container, props.style) }>
-        <div style={style.header}>
-          <ApPrevButton onTap={s.toLeft} />
-          <ApNextButton onTap={s.toRight} />
-          <span style={style.nth}> {state.nth} / {imageList.length} </span>
-        </div>
-        <div className='sg-album-display' style={style.display}>
-          <div className='sg-album-full-img' style={style.fullImg}>
-              {
-                imageList.map((image, i) =>
-                  <img className='sg-album-img' src={image} key={i} style={style.img}/>
-                )
-              }
+           style={ Object.assign({}, props.style) }>
+        <style className='sg-album-style' type='text/css'>
+          { style }
+        </style>
+        <div className='sg-album-container'>
+          <div className='sg-album-header'>
+            <ApPrevButton onTap={ s.toLeft } />
+            <ApNextButton onTap={ s.toRight } />
+            <span className='sg-album-nth'> { state.nth } / { imageList.length } </span>
           </div>
-        </div>
-        <div className='sg-album-thumbnail' style={style.thumbnail}>
-          <div className='sg-album-thumbnail-selected' style={style.thumbnailSelected}/>
-          {
-            imageList.map((image, i) =>
-              <img className='sg-album-img' src={image} key={i} style={style.thumbnailImg}/>
-            )
-          }
+          <div className='sg-album-display'>
+            <div className='sg-album-full-img'>
+                {
+                  imageList.map((image, i) =>
+                    <img className='sg-album-img' src={ image } key={ i } />
+                  )
+                }
+            </div>
+          </div>
+          <div className='sg-album-thumbnail'>
+            <div className='sg-album-thumbnail-selected'/>
+            {
+              imageList.map((image, i) => {
+                // 配列の前方から画像を挿入しても、各画像に対するkeyを不変にする。画像データをkeyにすると同じ画像を挿入するとエラーになる
+                let key = imageList.length - i
+                return (
+                  <div className='sg-album-thumbnail-img-effect' key={ key } data={ i } onClick={ this.moveTo }>
+                    <img className='sg-album-thumbnail-img' src={ image } key={ key }/>
+                  </div>
+                )
+              })
+            }
+          </div>
         </div>
       </div>
     )
@@ -109,70 +120,103 @@ const SgAlbum = React.createClass({
     let thumbnailHeight = thumbnailWidth * 3 / 4
     let thumbnailLeft = thumbnailWidth * ((state.nth - 1) % thumbnailCol)
     let thumbnailTop = thumbnailHeight * Math.floor((state.nth - 1) / thumbnailCol)
-    return {
-      // main
-      container: {
-        width: `${width}px`,
-        margin: '5px'
-      },
-      display: {
-        width: `${width}px`,
-        overflow: 'hidden',
-        borderBottom: '2px solid #666'
-      },
-      fullImg: {
-        width: `${width * imageList.length}px`,
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        right: `${displayRight}px`,
-        transition: 'all 0.3s ease'
-      },
-      img: {
-        width: width
-      },
-      // header
-      header: {
-        position: 'relative',
-        textAlign: 'center'
-      },
-      nth: {
-        position: 'absolute',
-        right: 0,
-        top: '10px'
-      },
-      // thumbnail
-      thumbnail: {
-        width: `${width}px`,
-        position: 'relative'
-      },
-      thumbnailImg: {
-        width: `${thumbnailWidth}px`
-      },
-      thumbnailSelected: {
-        position: 'absolute',
-        width: `${thumbnailWidth}px`,
-        height: `${thumbnailHeight}px`,
-        transition: 'all 0.3s ease',
-        boxSizing: 'border-box',
-        border: `2px solid ${thumbnailSelectedColor}`,
-        left: `${thumbnailLeft}px`,
-        top: `${thumbnailTop}px`
-      }
-    }
+    return `
+.sg-album-container {
+  width: ${width}px;
+  margin: 5px;
+}
+.sg-album-display {
+  width: ${width}px;
+  overflow: hidden;
+  border-bottom: 2px solid #666;
+}
+.sg-album-full-img {
+  width: ${width * imageList.length}px;
+  position: relative;
+  white-space: nowrap;
+  right: ${displayRight}px;
+  transition: all 0.3s ease;
+}
+.sg-album-img {
+  width: ${width}px;
+}
+.sg-album-header {
+  position: relative;
+  text-align: center;
+}
+.sg-album-nth {
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+.sg-album-thumbnail {
+  width: ${width}px;
+  position: relative;
+}
+.sg-album-thumbnail-img-effect {
+  z-index: 1;
+  display: inline-block;
+  position: relative;
+  width: ${thumbnailWidth}px;
+}
+.sg-album-thumbnail-img-effect:hover:before {
+  content: "";
+  cursor: pointer;
+  position: absolute;
+  z-index: 3;
+  display: block;
+  width: ${thumbnailWidth}px;
+  height: ${thumbnailHeight}px;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+.sg-album-thumbnail-img-effect:active:before {
+  content: "";
+  cursor: pointer;
+  position: absolute;
+  z-index: 3;
+  display: block;
+  width: ${thumbnailWidth}px;
+  height: ${thumbnailHeight}px;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+.sg-album-thumbnail-img {
+  width: ${thumbnailWidth}px;
+}
+.sg-album-thumbnail-selected {
+  position: absolute;
+  cursor: pointer;
+  z-index: 2;
+  width: ${thumbnailWidth}px;
+  height: ${thumbnailHeight}px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  border: 2px solid ${thumbnailSelectedColor};
+  left: ${thumbnailLeft}px;
+  top: ${thumbnailTop}px;
+}
+`
   },
 
   toRight () {
-    let {props, state} = this
+    let { props, state } = this
     let nth = state.nth % props.imageList.length + 1
-    this.setState({nth})
+    this.setState({ nth })
   },
 
   toLeft () {
-    let {state, props} = this
+    let { state, props } = this
     let nth = (state.nth + props.imageList.length - 2) % props.imageList.length + 1
-    this.setState({nth})
-  }
+    this.setState({ nth })
+  },
 
+  moveTo (e) {
+    let nth = Number(e.target.attributes.data.value) + 1
+    this.setState({ nth })
+  }
 })
 
 export default SgAlbum

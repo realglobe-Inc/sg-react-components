@@ -126,7 +126,7 @@ Components
 | width | number | 300 | | Width(px) of a image. |
 | imageList | array | [] | | List of image src. |
 | thumbnailCol | number | 4 | | Number of images per 1 row in the thumbnail. |
-| thumbnailSelectedColor | string | &#x27;red&#x27; | | Border color of selected image in the thumbnail. |
+| thumbnailSelectedColor | string | &#x27;yellow&#x27; | | Border color of selected image in the thumbnail. |
 | onChange | func |  | | Called when update. Argument is index of imageList. |
 
 ### SgBody
@@ -173,7 +173,8 @@ Components
 | bodies | array |  | | Body frame data from kinect |
 | width | number | depthSpace.BOUND_WIDTH | | Component width |
 | height | number | depthSpace.BOUND_HEIGHT | | Component height |
-| lineWidth | number | 4 | | Width of lines |
+| frameWidth | number | 4 | | Width of frames |
+| jointRadius | number | 3 | | Radius of joint |
 | scale | number | 2 | | Scale rate of canvas |
 | alt | string | &#x27;NO BODY FOUND&#x27; | | Alt message when no body found |
 | colorizer | func | colorHelper.uniqueColorizer(&#x27;#CCCC33&#x27;) | | Colorizer function |
