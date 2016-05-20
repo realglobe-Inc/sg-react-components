@@ -17,8 +17,17 @@ describe('color-helper', () => {
 
   }))
 
-  it('Color helper', () => co(function * () {
+  it('Random color', () => co(function * () {
+    for (let i = 0; i < 100; i++) {
+      assert.ok(colorHelper.randomColor('#38A'))
+    }
+  }))
 
+  it('Unique colorizer', () => co(function * () {
+    let colorizer = colorHelper.uniqueColorizer('#EE3')
+
+    assert.equal(colorizer('hoge'), colorizer('hoge'))
+    assert.notEqual(colorizer('hoge'), colorizer('fuge'))
   }))
 })
 
