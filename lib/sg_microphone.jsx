@@ -56,7 +56,6 @@ const SgMicrophone = React.createClass({
       <a className={ classnames('sg-microphone', {
         'sg-microphone-on': on
       })}
-         href="javascript:void(0)"
          style={ style.root }>
         <div className={ classnames('sg-microphone-back', {
         'sg-microphone-back-enlarged': state.enlarged
