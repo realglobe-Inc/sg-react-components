@@ -79,6 +79,11 @@ const SgKinectFrame = React.createClass({
     s._trackingColors = {}
   },
 
+  componentWillReceiveProps (nextProps) {
+    const s = this
+    s.drawBody(s.getBodies())
+  },
+
   componentDidMount () {
     const s = this
     s.drawBody(s.getBodies())

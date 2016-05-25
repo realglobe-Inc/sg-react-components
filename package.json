@@ -1,6 +1,6 @@
 {
   "name": "sg-react-components",
-  "version": "1.1.13",
+  "version": "1.2.1",
   "description": "React components for SUGOS project.",
   "main": "lib",
   "scripts": {
@@ -25,6 +25,7 @@
   "homepage": "https://github.com/realglobe-Inc/sg-react-components#readme",
   "dependencies": {
     "apeman-react-basic": "^5.2.3",
+    "apeman-react-mixins": "^5.1.0",
     "apeman-react-style": "^4.0.0",
     "apeman-react-theme": "^4.0.10",
     "apemancolor": "^1.0.2",

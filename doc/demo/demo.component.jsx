@@ -6,7 +6,8 @@ import {
   SgHtml,
   SgButton,
   SgThemeStyle,
-  SgKinectFrame
+  SgKinectFrame,
+  SgMicrophone
 } from '../../lib'
 
 const DOMINANT_COLOR = '#FFC533'
@@ -22,7 +23,7 @@ const demoStyle = {
 
 const Demo = React.createClass({
   render () {
-    let imgs = ['./img/sample1.png', './img/sample2.png', './img/sample3.png', './img/sample4.png', './img/sample5.png']
+    let imgs = [ './img/sample1.png', './img/sample2.png', './img/sample3.png', './img/sample4.png', './img/sample5.png' ]
     return (
       <div>
         <SgThemeStyle dominant={ DOMINANT_COLOR } style={ demoStyle }/>
@@ -38,8 +39,16 @@ const Demo = React.createClass({
         <fieldset>
           <legend>SgKinectFrame</legend>
           <div>
-            <SgKinectFrame style={{ display: 'inline-block' }} width={ 256 } height={ 128 } bodies={ require('./data/mock-kinnect-bodies') }/>
+            <SgKinectFrame style={{ display: 'inline-block' }} width={ 256 } height={ 128 }
+                           bodies={ require('./data/mock-kinnect-bodies') }/>
             <SgKinectFrame style={{ display: 'inline-block' }} width={ 256 } height={ 128 } bodies={ null }/>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>SgMicrophone</legend>
+          <div>
+            <SgMicrophone />
+            <SgMicrophone on/>
           </div>
         </fieldset>
       </div>
