@@ -191,6 +191,9 @@ Components
 
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
+| width | number | 44 | |  |
+| height | number | 44 | |  |
+| on | bool | false | |  |
 
 ### SgPage
 
@@ -206,8 +209,7 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | style | object | {} | |  |
-| highlightColor | string | ApStyle.DEFAULT_HIGHLIGHT_COLOR | |  |
-| backgroundColor |  | ApStyle.DEFAULT_BACKGROUND_COLOR | |  |
+| dominant | string | ApStyle.DEFAULT_HIGHLIGHT_COLOR | |  |
 
 
 
