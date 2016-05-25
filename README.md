@@ -185,6 +185,13 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 
+### SgMicrophone
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+
 ### SgPage
 
 **Props**
