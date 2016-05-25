@@ -26,8 +26,10 @@ const SgKinectFrame = React.createClass({
     width: types.number,
     /** Component height */
     height: types.number,
-    /** Width of lines */
-    lineWidth: types.number,
+    /** Width of frames */
+    frameWidth: types.number,
+    /** Radius of joint */
+    jointRadius: types.number,
     /** Scale rate of canvas */
     scale: types.number,
     /** Alt message when no body found */
@@ -40,7 +42,8 @@ const SgKinectFrame = React.createClass({
     return {
       width: depthSpace.BOUND_WIDTH,
       height: depthSpace.BOUND_HEIGHT,
-      lineWidth: 4,
+      frameWidth: 4,
+      jointRadius: 3,
       scale: 2,
       alt: 'NO BODY FOUND',
       colorizer: colorHelper.uniqueColorizer('#CCCC33')
@@ -113,7 +116,7 @@ const SgKinectFrame = React.createClass({
     } = jointTypes
 
     let { props } = s
-    let { width, height, lineWidth, scale, colorizer } = props
+    let { width, height, frameWidth, jointRadius, scale, colorizer } = props
 
     let ctx = canvas.getContext('2d')
     ctx.save()
@@ -135,7 +138,7 @@ const SgKinectFrame = React.createClass({
 
       ctx.fillStyle = color
       ctx.strokeStyle = apemancolor.parse(color).alpha(0.66).rgbaString()
-      ctx.lineWidth = lineWidth
+      ctx.lineWidth = frameWidth
 
       let spineB = points[ SPINE_BASE ]
       let spineM = points[ SPINE_MID ]
@@ -179,7 +182,7 @@ const SgKinectFrame = React.createClass({
 
       // Draw circles
       {
-        const RADIUS = lineWidth + 1
+        const RADIUS = jointRadius
         let circlePoints = [
           head, neck, spineShoulder, spineM, spineB,
           shoulderL, hipL, elbowL, wristL,

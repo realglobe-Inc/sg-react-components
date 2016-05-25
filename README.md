@@ -173,7 +173,8 @@ Components
 | bodies | array |  | | Body frame data from kinect |
 | width | number | depthSpace.BOUND_WIDTH | | Component width |
 | height | number | depthSpace.BOUND_HEIGHT | | Component height |
-| lineWidth | number | 4 | | Width of lines |
+| frameWidth | number | 4 | | Width of frames |
+| jointRadius | number | 3 | | Radius of joint |
 | scale | number | 2 | | Scale rate of canvas |
 | alt | string | &#x27;NO BODY FOUND&#x27; | | Alt message when no body found |
 | colorizer | func | colorHelper.uniqueColorizer(&#x27;#CCCC33&#x27;) | | Colorizer function |
