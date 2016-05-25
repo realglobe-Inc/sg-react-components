@@ -36,7 +36,8 @@ const SgThemeStyle = React.createClass({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        color: 'inherit'
       },
       '.sg-microphone-back': {
         position: 'absolute',
@@ -60,7 +61,7 @@ const SgThemeStyle = React.createClass({
       '.sg-microphone-icon': {
         position: 'relative',
         zIndex: 4,
-        opacity: 0.8
+        opacity: 0.66
       },
       '.sg-microphone:hover .sg-microphone-icon': {
         opacity: 1
