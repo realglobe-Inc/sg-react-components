@@ -212,8 +212,8 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | width | number |  | | Width(px) of a switch. |
-| on | custom |  | | The state of on/off. |
-| onTap | custom |  | | Function on tap. |
+| on | bool |  | | The state of on/off. |
+| onTap | func |  | | Function on tap. |
 | onTitle | string |  | |  |
 | offTitle | string |  | |  |
 | highlightColor | string |  | |  |
