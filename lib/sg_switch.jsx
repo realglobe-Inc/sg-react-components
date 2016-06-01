@@ -46,11 +46,10 @@ const SgSwitch = React.createClass({
     let { props, state } = s
     let { style } = state
     return (
-      <div>
+      <div className={ classnames('sg-switch', props.className) }
+        style={ Object.assign({display: 'inline-block', margin: '4px'}, props.style) } >
         <ApStyle data={ style } />
-        <ApSwitch { ...props }
-          className={ classnames('sg-switch', props.className) }
-          style={ Object.assign({}, props.style) } />
+        <ApSwitch { ...props }/>
       </div>
     )
   },
