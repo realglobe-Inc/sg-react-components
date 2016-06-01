@@ -27,6 +27,7 @@
     "apeman-react-basic": "^5.2.3",
     "apeman-react-mixins": "^5.1.0",
     "apeman-react-style": "^4.0.0",
+    "apeman-react-switch": "^1.0.0",
     "apeman-react-theme": "^4.0.10",
     "apemancolor": "^1.0.2",
     "classnames": "^2.2.5",

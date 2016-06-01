@@ -7,7 +7,8 @@ import {
   SgButton,
   SgThemeStyle,
   SgKinectFrame,
-  SgMicrophone
+  SgMicrophone,
+  SgSwitch
 } from '../../lib'
 
 const DOMINANT_COLOR = '#FFC533'
@@ -22,8 +23,15 @@ const demoStyle = {
 }
 
 const Demo = React.createClass({
+  getInitialState () {
+    return {
+      switchOn: false
+    }
+  },
+
   render () {
     let imgs = [ './img/sample1.png', './img/sample2.png', './img/sample3.png', './img/sample4.png', './img/sample5.png' ]
+    let {switchOn} = this.state
     return (
       <div>
         <SgThemeStyle dominant={ DOMINANT_COLOR } style={ demoStyle }/>
@@ -31,6 +39,10 @@ const Demo = React.createClass({
           <legend>SgButton</legend>
           <SgButton primary={ true } onTap={ () => console.log('button 01 tapped!') }>Button 01</SgButton>
           <SgButton onTap={ () => console.log('button 02 tapped!') }>Button 02</SgButton>
+        </fieldset>
+        <fieldset>
+          <legend>SgSwitch</legend>
+          <SgSwitch on={switchOn} onTap={ this.toggleSwitch } onTitle='ON' offTitle='OFF' width={120} handleSize={40}/>
         </fieldset>
         <fieldset>
           <legend>SgAlbum</legend>
@@ -53,6 +65,12 @@ const Demo = React.createClass({
         </fieldset>
       </div>
     )
+  },
+
+  toggleSwitch () {
+    this.setState({
+      switchOn: !this.state.switchOn
+    })
   }
 })
 

@@ -8,5 +8,6 @@
   "SgHeader",
   "SgKinectFrame",
   "SgThemeStyle",
-  "SgAlbum"
+  "SgAlbum",
+  "SgSwitch"
 ]
