@@ -2,17 +2,17 @@
 
 import React from 'react'
 import {
-  SgHtml, SgHead, SgBody, SgThemeStyle
+  SgThemeStyle
 } from 'sg-react-components'
+
+const DOMINANT_COLOR = '#FFC533'
 
 const ExampleComponent = React.createClass({
   render () {
     return (
-      <SgHtml>
-        <SgBody>
-
-        </SgBody>
-      </SgHtml>
+      <div>
+        <SgThemeStyle dominant={ DOMINANT_COLOR }/>
+      </div>
     )
   }
 })

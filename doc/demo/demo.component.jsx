@@ -8,7 +8,8 @@ import {
   SgThemeStyle,
   SgKinectFrame,
   SgMicrophone,
-  SgSwitch
+  SgSwitch,
+  SgVideo
 } from '../../lib'
 
 const DOMINANT_COLOR = '#FFC533'
@@ -25,13 +26,15 @@ const demoStyle = {
 const Demo = React.createClass({
   getInitialState () {
     return {
-      switchOn: false
+      switchOn: false,
+      videoPaused: false
     }
   },
 
   render () {
+    const s = this
     let imgs = [ './img/sample1.png', './img/sample2.png', './img/sample3.png', './img/sample4.png', './img/sample5.png' ]
-    let {switchOn} = this.state
+    let { switchOn, videoPaused } = s.state
     return (
       <div>
         <SgThemeStyle dominant={ DOMINANT_COLOR } style={ demoStyle }/>
@@ -63,14 +66,40 @@ const Demo = React.createClass({
             <SgMicrophone on/>
           </div>
         </fieldset>
+        <fieldset>
+          <legend>SgVideo</legend>
+          <div>
+            <div>
+              <SgVideo src="./video/mock-mp4.mp4"
+                       autoPlay
+                       loop
+                       width="120"
+                       height="120"
+                       playerRef={ (player) => { s.videoPlayer = player }}
+                       onClick={ () => s.toggleVideo(!videoPaused) }
+              />
+            </div>
+          </div>
+        </fieldset>
       </div>
     )
   },
 
   toggleSwitch () {
+    const s = this
     this.setState({
-      switchOn: !this.state.switchOn
+      switchOn: !s.state.switchOn
     })
+  },
+
+  toggleVideo (paused) {
+    const s = this
+    if (paused) {
+      s.videoPlayer.pause()
+    } else {
+      s.videoPlayer.play()
+    }
+    s.setState({ videoPaused: paused })
   }
 })
 
