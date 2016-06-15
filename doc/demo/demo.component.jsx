@@ -9,7 +9,8 @@ import {
   SgKinectFrame,
   SgMicrophone,
   SgSwitch,
-  SgVideo
+  SgVideo,
+  SgHeart
 } from '../../lib'
 
 const DOMINANT_COLOR = '#FFC533'
@@ -79,6 +80,12 @@ const Demo = React.createClass({
                        onClick={ () => s.toggleVideo(!videoPaused) }
               />
             </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>SgHeart</legend>
+          <div>
+            <SgHeart width={60} height={60} heartRate={60} />
           </div>
         </fieldset>
       </div>
