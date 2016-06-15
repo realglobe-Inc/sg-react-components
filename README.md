@@ -159,6 +159,17 @@ Components
 | Name | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 
+### SgHeart
+
+**Props**
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| width | number | 44 | |  |
+| height | number | 44 | |  |
+| heartRate | number | 60 | |  |
+| id | string |  | |  |
+
 ### SgHtml
 
 **Props**
