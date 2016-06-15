@@ -31,6 +31,7 @@ const SgThemeStyle = React.createClass({
 
     let style = {
       '.sg-html': {},
+      // SgMicrophone
       '.sg-microphone': {
         display: 'inline-flex',
         justifyContent: 'center',
@@ -72,6 +73,19 @@ const SgThemeStyle = React.createClass({
       },
       '.sg-microphone:active .sg-microphone-icon': {
         opacity: 0.9
+      },
+      // SgHeart
+      '.sg-heart': {
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        cursor: 'pointer',
+        color: 'inherit'
+      },
+      '.sg-heart-icon': {
+        color: '#D80000',
+        transitionProperty: 'font-size'
       }
     }
     return (

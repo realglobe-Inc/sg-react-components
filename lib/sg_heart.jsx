@@ -22,23 +22,6 @@ const SgHeart = React.createClass({
     heartRate: types.number
   },
 
-  statics: {
-    style: {
-      '.sg-heart': {
-        display: 'inline-flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-        cursor: 'pointer',
-        color: 'inherit'
-      },
-      '.sg-heart-icon': {
-        color: '#D80000',
-        transitionProperty: 'font-size'
-      }
-    }
-  },
-
   getDefaultProps () {
     return {
       width: 44,
@@ -60,7 +43,6 @@ const SgHeart = React.createClass({
     let { enlarged } = state
     return (
       <div className='sg-heart'>
-           <ApStyle data={ SgHeart.style } />
            <ApStyle data={ style } />
            <ApIcon className={ classnames('fa fa-heart sg-heart-icon', {
              'sg-heart-icon-enlarged': enlarged
