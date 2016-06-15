@@ -76,14 +76,11 @@ const SgThemeStyle = React.createClass({
       },
       // SgHeart
       '.sg-heart': {
-        display: 'inline-flex',
+        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
         cursor: 'pointer',
-        color: 'inherit'
-      },
-      '.sg-heart-icon': {
         color: '#D80000',
         transitionProperty: 'font-size'
       }

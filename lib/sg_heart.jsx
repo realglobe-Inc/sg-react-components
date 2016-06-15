@@ -19,7 +19,8 @@ const SgHeart = React.createClass({
   propTypes: {
     width: types.number,
     height: types.number,
-    heartRate: types.number
+    heartRate: types.number,
+    id: types.string
   },
 
   getDefaultProps () {
@@ -41,13 +42,14 @@ const SgHeart = React.createClass({
     let style = s.getStyle()
     let { state, props } = s
     let { enlarged } = state
+    let id = `sg-heart-${props.id}`
     return (
-      <div className='sg-heart'>
+      <div className={ classnames('sg-heart', {
+        'sg-heart-enlarged': enlarged
+      })}
+           id={id}>
            <ApStyle data={ style } />
-           <ApIcon className={ classnames('fa fa-heart sg-heart-icon', {
-             'sg-heart-icon-enlarged': enlarged
-           })}
-           />
+           <ApIcon className='fa fa-heart sg-heart-icon' />
       </div>
     )
   },
@@ -86,23 +88,21 @@ const SgHeart = React.createClass({
     const s = this
     let { props } = s
     let { width, height } = props
+    let id = `sg-heart-${props.id}`
     return {
-      '.sg-heart': {
+      [`.sg-heart#${id}`]: {
         width,
-        height
-      },
-      '.sg-heart-icon': {
+        height,
         transitionDuration: `${s._period}s`,
         fontSize: `${height * 0.5}px`,
         transitionTimingFunction: 'ease-out'
       },
-      '.sg-heart-icon-enlarged': {
-        fontSize: `${height * 0.9}px`,
+      [`.sg-heart-enlarged#${id}`]: {
+        fontSize: `${height * 0.8}px`,
         transitionTimingFunction: 'ease-in'
       }
     }
   }
-
 })
 
 export default SgHeart

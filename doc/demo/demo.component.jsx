@@ -84,8 +84,9 @@ const Demo = React.createClass({
         </fieldset>
         <fieldset>
           <legend>SgHeart</legend>
-          <div>
-            <SgHeart width={60} height={60} heartRate={60} />
+          <div style={{height: '70px', display: 'flex'}}>
+            <SgHeart width={60} height={60} heartRate={60} id='1'/>
+            <SgHeart width={60} height={60} heartRate={100} id='2'/>
           </div>
         </fieldset>
       </div>
