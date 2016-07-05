@@ -6,7 +6,8 @@
 
 import React, {PropTypes as types} from 'react'
 import {ApIcon} from 'apeman-react-basic'
-import {ApTouchMixin, ApPureMixin} from 'apeman-react-mixins'
+import {ApPureMixin} from 'apeman-react-mixin-pure'
+import {ApTouchMixin} from 'apeman-react-mixin-touch'
 import classnames from 'classnames'
 
 const { MICROPHONE_TRANSITION } = require('./constants/animation_constants')
