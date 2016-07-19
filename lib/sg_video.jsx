@@ -49,7 +49,6 @@ const SgVideo = React.createClass({
       </video>
     )
   }
-
 })
 
 export default SgVideo

@@ -36,7 +36,7 @@
     "sg-kinect-constants": "^1.0.5"
   },
   "devDependencies": {
-    "ababel": "^1.0.16",
+    "ababel": "^1.0.17",
     "ababel-es2015": "^1.0.1",
     "ababel-react": "^1.0.1",
     "abrowserify": "^1.0.11",
