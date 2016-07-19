@@ -34,8 +34,10 @@ const SgVideo = React.createClass({
     const s = this
     let { state, props } = s
     let src = [].concat(props.src || [])
+    let videoProps = Object.assign({}, props)
+    delete videoProps.playerRef
     return (
-      <video { ...props }
+      <video { ...videoProps }
         className={ classnames('sg-video', props.className) }
         style={ Object.assign({}, props.style) }
         ref={ (player) => props.playerRef(player) }
@@ -47,7 +49,6 @@ const SgVideo = React.createClass({
       </video>
     )
   }
-
 })
 
 export default SgVideo
