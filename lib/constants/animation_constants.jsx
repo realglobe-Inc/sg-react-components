@@ -1,0 +1,5 @@
+'use strict'
+
+const MICROPHONE_TRANSITION = 800
+
+export {MICROPHONE_TRANSITION}
