@@ -75,7 +75,7 @@ const SgHeart = React.createClass({
     }, s._period * 1000)
   },
 
-  componentWillUnMount () {
+  componentWillUnmount () {
     const s = this
     clearInterval(s._animationTimer)
   },
