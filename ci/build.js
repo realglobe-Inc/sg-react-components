@@ -5,11 +5,13 @@
  */
 
 'use strict'
+require('ababel-react/register')()
 
 process.chdir(`${__dirname}/..`)
 
 const { runTasks } = require('ape-tasking')
 const ababelReact = require('ababel-react')
+const ababelReactTransform = require('ababel-react/transform')
 const abrowserify = require('abrowserify')
 const fs = require('fs')
 const co = require('co')
@@ -17,7 +19,6 @@ const coz = require('coz')
 
 let isForked = process.send
 
-let reflects = [ 'lib/**/*.*', 'doc/demo/**/*.*' ]
 runTasks('build', [
   () => coz.render([
     '.*.bud',
@@ -26,31 +27,33 @@ runTasks('build', [
   ]),
   () => {
     let libDir = `${__dirname}/../lib`
-    return ababelReact('*.jsx', {
+    let shimDir = `${__dirname}/../shim/node`
+    return ababelReact('**/+(*.jsx|*.js)', {
       cwd: libDir,
-      out: libDir,
-      reflects
+      out: shimDir
     })
   },
+  () => coz.render([
+    '.*.bud',
+    'lib/.*.bud',
+    'test/.*.bud'
+  ]),
   () => {
     let demoDir = `${__dirname}/../doc/demo`
     return co(function * () {
       if (!fs.existsSync(demoDir)) {
         return
       }
-      yield ababelReact('*.jsx', {
-        cwd: demoDir,
-        out: demoDir,
-        minified: true,
-        reflects
-      })
       yield coz.render(demoDir + '/.*.bud')
       yield abrowserify(
-        `${demoDir}/demo.entrypoint.js`,
+        `${demoDir}/demo.entrypoint.jsx`,
         `${demoDir}/demo.js`,
         {
           debug: true,
-          reflects
+          extensions: [ '.jsx' ],
+          transforms: [
+            ababelReactTransform()
+          ]
         })
     })
   }
