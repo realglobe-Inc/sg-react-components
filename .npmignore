@@ -36,3 +36,12 @@ tmp
 doc/demo
 
 !lib/*.js
+
+
+# SUGOS
+.*
+tmp
+ci
+doc
+example
+test
