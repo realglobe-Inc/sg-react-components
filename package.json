@@ -25,12 +25,12 @@
   },
   "homepage": "https://github.com/realglobe-Inc/sg-react-components#readme",
   "dependencies": {
-    "apeman-react-basic": "^9.0.1",
+    "apeman-react-basic": "^10.2.3",
     "apeman-react-mixin-pure": "^1.0.4",
     "apeman-react-mixin-touch": "^1.0.3",
     "apeman-react-style": "^4.1.2",
-    "apeman-react-switch": "^1.0.2",
-    "apeman-react-theme": "^5.1.11",
+    "apeman-react-switch": "^2.0.3",
+    "apeman-react-theme": "^7.0.12",
     "apemancolor": "^1.2.2",
     "classnames": "^2.2.5",
     "sg-kinect-constants": "^1.0.5"
