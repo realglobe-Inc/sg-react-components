@@ -4,8 +4,8 @@
   "description": "React components for SUGOS project.",
   "main": "shim/node",
   "scripts": {
-    "test": "./ci/test.js",
-    "prepublish": "./ci/build.js"
+    "test": "node ./ci/test.js",
+    "prepublish": "node ./ci/build.js"
   },
   "repository": "realglobe-Inc/sg-react-components",
   "keywords": [
@@ -51,12 +51,15 @@
     "ape-tmpl": "^5.0.14",
     "ape-updating": "^4.0.4",
     "ape-watching": "^2.1.2",
+    "apeman-asset-templates": "^2.3.25",
     "apeman-react-demo": "^1.0.20",
     "breact": "^1.0.6",
     "coz": "^6.0.14",
+    "enzyme": "^2.4.1",
     "filecopy": "^2.0.1",
     "injectmock": "^2.0.0",
     "react": "^15.2.1",
+    "react-addons-test-utils": "^15.3.1",
     "react-dom": "^15.2.1",
     "sg-templates": "^1.1.1",
     "sg-travis": "^1.1.25",
