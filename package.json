@@ -41,6 +41,7 @@
     "ababel-react": "^1.0.5",
     "abrowserify": "^1.0.18",
     "aglob": "^1.0.1",
+    "amocha": "^1.0.14",
     "ape-deploying": "^5.0.4",
     "ape-doc": "^2.0.4",
     "ape-highlighting": "^3.1.0",
