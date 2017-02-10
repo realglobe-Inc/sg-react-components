@@ -1,7 +1,7 @@
 /**
  * React components for SUGOS project.
  * @module sg-react-components
- * @version 1.4.0
+ * @version 1.4.1
  */
 'use strict'
 
